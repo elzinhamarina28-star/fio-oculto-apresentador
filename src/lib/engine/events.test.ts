@@ -58,9 +58,9 @@ describe("EventQueue", () => {
       maxSize: 1,
     });
     expect(queue.enqueue(event({ id: "comment-1" }), 1_000)).toBe("accepted");
-    expect(
-      queue.enqueue(event({ id: "follow-1", kind: "follow", text: undefined }), 1_001),
-    ).toBe("accepted");
+    expect(queue.enqueue(event({ id: "follow-1", kind: "follow", text: undefined }), 1_001)).toBe(
+      "accepted",
+    );
     expect(queue.next()?.id).toBe("follow-1");
   });
 });
