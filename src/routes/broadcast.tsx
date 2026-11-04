@@ -4,10 +4,7 @@ import { usePresenter } from "@/lib/presenter/use-presenter";
 
 export const Route = createFileRoute("/broadcast")({
   head: () => ({
-    meta: [
-      { title: "Fio Oculto — Saída OBS" },
-      { name: "robots", content: "noindex, nofollow" },
-    ],
+    meta: [{ title: "Fio Oculto — Saída OBS" }, { name: "robots", content: "noindex, nofollow" }],
   }),
   component: Broadcast,
 });
