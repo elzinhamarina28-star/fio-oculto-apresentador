@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Presenter: renderers implement `PresenterRendererProps` (src/lib/presenter/types.ts) and are driven by `usePresenter` commands; swap SpriteRig for a rigged/Live2D renderer without changing the control panel. Reactions are manual-test only until a real live integration exists.

@@ -1,24 +1,28 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { SpriteRig } from "@/components/presenter/SpriteRig";
+import { ControlPanel } from "@/components/presenter/ControlPanel";
+import { usePresenter } from "@/lib/presenter/use-presenter";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Fio Oculto — Apresentador da Live" },
+      { name: "description", content: "Apresentador animado da live interativa Fio Oculto com painel de teste de animações." },
+      { property: "og:title", content: "Fio Oculto — Apresentador da Live" },
+      { property: "og:description", content: "Apresentador animado da live interativa Fio Oculto." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  const { state, dispatch, toggle, removeReaction } = usePresenter();
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <main className="presenter-page">
+      <SpriteRig state={state} onReactionDone={removeReaction} />
+      <ControlPanel state={state} dispatch={dispatch} toggle={toggle} />
+    </main>
   );
 }
