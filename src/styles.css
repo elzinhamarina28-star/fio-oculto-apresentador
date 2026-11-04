@@ -161,7 +161,7 @@
 .presenter-bg, .presenter-desk { position: absolute; left: 0; width: 100%; pointer-events: none; }
 .presenter-bg { top: 0; height: 100%; object-fit: cover; }
 .presenter-desk { bottom: 0; height: calc(171 / 941 * 100%); }
-.presenter-character { position: absolute; left: 27.6%; top: 27%; width: 26%; aspect-ratio: 630 / 880; }
+.presenter-character { position: absolute; left: 29.5%; top: 33%; width: 22.5%; aspect-ratio: 630 / 880; }
 .presenter-torso-wrap { position: absolute; left: 0; top: 43.2%; width: 100%; height: 56.8%; transform-origin: 50% 100%; }
 .presenter-torso { width: 100%; height: 100%; }
 .presenter-character[data-breathing="true"] .presenter-torso-wrap { animation: fo-breathe 4s ease-in-out infinite; }
