@@ -10,6 +10,14 @@ Este documento registra a próxima etapa sem declarar integrações ainda inexis
 - CaptionOnlyProvider é somente legenda temporizada, não gera áudio.
 - Não há trilhas originais cadastradas nem arte separada do gato confirmada.
 
+## Decisões confirmadas (04/11/2026)
+
+- Plataforma de transmissão: OBS Studio.
+- Voz: ElevenLabs, com chamadas somente pelo servidor e credenciais em secrets/variáveis de ambiente.
+- TikTok LIVE: usar um conector compatível já existente, isolado atrás de `LiveEventProvider`. O repositório ainda contém somente o contrato genérico; nenhum conector real está configurado ou identificado. Não declarar conexão real até escolher/validar o pacote e realizar um teste de LIVE.
+- Saída OBS: rota `/broadcast`, sem painel, sincronizada com o painel no mesmo navegador/perfil via BroadcastChannel.
+- O painel é a origem dos comandos; a rota OBS apenas recebe, evitando eco de mensagens.
+
 ## Ordem de implementação
 
 ### A. Terminar o MVP visual e a saída OBS
