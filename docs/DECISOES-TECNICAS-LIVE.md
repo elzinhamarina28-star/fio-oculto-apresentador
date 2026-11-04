@@ -16,6 +16,7 @@ Atualizado em 04/11/2026.
 - `src/lib/engine/integration-adapter.ts` já define `LiveEventProvider`, valida eventos, controla status e tentativas de reconexão.
 - O único provider concreto presente é `DemoProvider`. Ainda não há dependência nem implementação identificável de um provider real do TikTok LIVE.
 - `src/lib/engine/speech-engine.ts` define `SpeechProvider` e `SpeechQueue`; `CaptionOnlyProvider` é apenas legenda temporizada, não áudio.
+- `POST /api/speech` encaminha texto à ElevenLabs no servidor e transmite MP3; depende de secrets no ambiente Nitro/Cloudflare e ainda não está ligado à fila/reprodução.
 - `/broadcast` é a saída limpa para OBS e recebe comandos do painel por BroadcastChannel.
 - A chave da ElevenLabs, o identificador de voz e qualquer credencial do conector TikTok devem ser configurados como secrets/variáveis de ambiente do servidor. Não devem ser commitados.
 
@@ -27,8 +28,10 @@ Atualizado em 04/11/2026.
 - Acionar comandos no painel e confirmar que o personagem reage na saída OBS.
 
 ### ElevenLabs
+- [x] Criar endpoint server-side `POST /api/speech` com validação de origem, token de operador e limite de texto.
+- [x] Documentar as variáveis de ambiente necessárias.
 - Configurar credenciais fora do repositório.
-- Criar implementação server-side de `SpeechProvider`.
+- Ligar o endpoint à implementação de `SpeechProvider` e à saída de áudio do OBS.
 - Testar português brasileiro, interrupção, fila, falha de rede e redução automática do volume da música.
 - Só então substituir a indicação visual de “somente legenda” por “voz conectada”.
 
@@ -40,4 +43,4 @@ Atualizado em 04/11/2026.
 
 ## Próximo bloqueio de integração
 
-O código não identifica qual conector compatível existente será usado para o TikTok LIVE. A interface do provider está pronta para receber essa implementação, mas a escolha do conector precisa ser validada antes de escrever código específico ou declarar conexão real.
+O código não identifica qual conector compatível existente será usado para o TikTok LIVE. A interface do provider está pronta para receber essa implementação, mas a escolha do conector precisa ser validada antes de escrever código específico ou declarar conexão real. A voz já tem um endpoint seguro, porém falta configurar os secrets e ligar a reprodução ao apresentador.
