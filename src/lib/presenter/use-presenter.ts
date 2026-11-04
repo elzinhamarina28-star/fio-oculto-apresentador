@@ -96,10 +96,13 @@ export function usePresenter(syncMode: PresenterSyncMode = "send") {
     if (!state.autoBlink) return;
     let t: ReturnType<typeof setTimeout>;
     const loop = () => {
-      t = setTimeout(() => {
-        dispatch({ type: "blink" });
-        loop();
-      }, 2500 + Math.random() * 3500);
+      t = setTimeout(
+        () => {
+          dispatch({ type: "blink" });
+          loop();
+        },
+        2500 + Math.random() * 3500,
+      );
     };
     loop();
     return () => clearTimeout(t);
