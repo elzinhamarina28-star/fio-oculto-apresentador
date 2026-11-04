@@ -37,9 +37,7 @@ describe("ElevenLabs speech gateway validation", () => {
 
   it("requires a same-origin browser request", () => {
     expect(isSameOriginRequest(request())).toBe(true);
-    expect(
-      isSameOriginRequest(request({ origin: "https://other.example" })),
-    ).toBe(false);
+    expect(isSameOriginRequest(request({ origin: "https://other.example" }))).toBe(false);
     expect(isSameOriginRequest(request({ origin: "" }))).toBe(false);
   });
 
@@ -67,10 +65,11 @@ describe("ElevenLabs speech gateway validation", () => {
     });
     expect(malformed.status).toBe(400);
 
-    const empty = await handleElevenLabsSpeech(
-      request({}, JSON.stringify({ text: " " })),
-      { operatorToken: token, apiKey: "not-used", voiceId: "not-used" },
-    );
+    const empty = await handleElevenLabsSpeech(request({}, JSON.stringify({ text: " " })), {
+      operatorToken: token,
+      apiKey: "not-used",
+      voiceId: "not-used",
+    });
     expect(empty.status).toBe(400);
   });
 });
