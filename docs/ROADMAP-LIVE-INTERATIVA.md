@@ -7,7 +7,8 @@ Este documento registra a próxima etapa sem declarar integrações ainda inexis
 - O apresentador atual usa sprites em camadas e CSS; a arte do cenário e a mesa continuam separadas do personagem.
 - Existem Event Manager, validação, fila com prioridades/deduplicação/rate limit, DemoProvider, Presenter Engine, SpeechQueue, MusicEngine, Scene Manager e BroadcastChannel.
 - O adaptador define o contrato de um provedor, mas nenhum provedor real do TikTok LIVE está conectado.
-- CaptionOnlyProvider é somente legenda temporizada, não gera áudio.
+- O endpoint TTS da ElevenLabs está preparado no servidor, mas ainda não está ligado à reprodução do personagem.
+- CaptionOnlyProvider continua sendo somente legenda temporizada, não gera áudio.
 - Não há trilhas originais cadastradas nem arte separada do gato confirmada.
 
 ## Decisões confirmadas (04/11/2026)
@@ -20,20 +21,23 @@ Este documento registra a próxima etapa sem declarar integrações ainda inexis
 
 ## Ordem de implementação
 
-### A. Terminar o MVP visual e a saída OBS
-1. Ligar DemoProvider, EventQueue e Presenter Engine ao painel atual.
-2. Criar /broadcast sem controles, horizontal por padrão e opção vertical.
-3. Sincronizar painel e /broadcast via BroadcastChannel no mesmo navegador/perfil.
-4. Adicionar testes de eventos, prioridade, duplicação, limites e rotas.
-5. Configurar CI (testes, lint e build) em cada push e pull request.
+### A. MVP visual e saída OBS
+1. [ ] Ligar DemoProvider, EventQueue e Presenter Engine ao painel atual.
+2. [x] Criar /broadcast sem controles, em formato horizontal 16:9.
+3. [x] Sincronizar painel e /broadcast via BroadcastChannel no mesmo navegador/perfil.
+4. [x] Adicionar testes para validação de eventos, prioridade, duplicação, rate limit e gateway de voz.
+5. [x] Configurar CI para testes, lint e build em push e pull request. Testes e build executam; lint ainda aponta problemas de formatação herdados do projeto.
+6. [ ] Conectar a fila de eventos ao painel e à saída visual OBS.
 
 ### B. Voz natural
-- Manter SpeechProvider como contrato e SpeechQueue como fila.
-- Selecionar um serviço TTS com português brasileiro, voz masculina jovem adulta, prosódia natural, controle de velocidade/pausas/estilo e licença adequada.
-- Não clonar nem imitar a voz de uma pessoa real.
-- Implementar chamadas no servidor; segredos somente em variáveis de ambiente do servidor.
-- Tratar interrupção, pausa, retentativa, falha do serviço e ducking da música.
-- Não anunciar voz real até existir provedor configurado e teste de áudio concluído.
+1. [x] Definir ElevenLabs como provedor TTS.
+2. [x] Criar proxy server-side `POST /api/speech` com streaming MP3, validação de origem, token de operador e limite de 600 caracteres.
+3. [x] Adicionar testes de validação sem consumir créditos da API.
+4. [x] Documentar secrets e configuração local em `docs/CONFIGURAR-VOZ-ELEVENLABS.md`.
+5. [ ] Configurar `ELEVENLABS_API_KEY`, `ELEVENLABS_VOICE_ID` e `FIO_OPERATOR_TOKEN` no ambiente de deploy.
+6. [ ] Conectar a resposta de áudio ao SpeechProvider/SpeechQueue e à saída OBS.
+7. [ ] Testar áudio real em português, interrupção, fila, falha de rede e ducking da música.
+8. [ ] Não anunciar voz real até o teste de áudio concluído.
 
 ### C. Gatinho como personagem secundário
 - Verificar a arte original: se o gato estiver incorporado no fundo, solicitar/produzir recorte transparente do gato; não tentar apagar o gato com CSS.
