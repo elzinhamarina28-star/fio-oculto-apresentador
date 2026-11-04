@@ -5,9 +5,7 @@ export interface ElevenLabsSpeechConfig {
   modelId?: string;
 }
 
-export type SpeechTextResult =
-  | { ok: true; text: string }
-  | { ok: false; error: string };
+export type SpeechTextResult = { ok: true; text: string } | { ok: false; error: string };
 
 const MAX_SPEECH_CHARACTERS = 600;
 const MAX_REQUEST_BYTES = 8_192;
@@ -52,10 +50,13 @@ export function isAuthorizedSpeechRequest(request: Request, operatorToken?: stri
 }
 
 function jsonError(message: string, status: number): Response {
-  return Response.json({ error: message }, {
-    status,
-    headers: { "cache-control": "no-store" },
-  });
+  return Response.json(
+    { error: message },
+    {
+      status,
+      headers: { "cache-control": "no-store" },
+    },
+  );
 }
 
 /**
