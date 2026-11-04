@@ -1,0 +1,6 @@
+# Modelo local — copie para .dev.vars e preencha somente na sua máquina.
+# Nunca coloque credenciais reais neste arquivo versionado.
+ELEVENLABS_API_KEY=
+ELEVENLABS_VOICE_ID=
+ELEVENLABS_MODEL_ID=eleven_flash_v2_5
+FIO_OPERATOR_TOKEN=
