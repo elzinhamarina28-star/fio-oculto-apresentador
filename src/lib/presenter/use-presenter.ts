@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { openBus } from "@/lib/engine/bus";
 import type { Command, Expression, PresenterState, ReactionKind } from "./types";
 
 const REACTION_EXPRESSION: Record<ReactionKind, Expression> = {
@@ -7,7 +8,13 @@ const REACTION_EXPRESSION: Record<ReactionKind, Expression> = {
   gift: "surprised",
 };
 
-export function usePresenter() {
+export type PresenterSyncMode = "send" | "receive" | "none";
+
+/**
+ * The control panel sends commands to the OBS browser source through BroadcastChannel.
+ * The /broadcast route listens only; it never echoes commands back to the panel.
+ */
+export function usePresenter(syncMode: PresenterSyncMode = "send") {
   const [state, setState] = useState<PresenterState>({
     expression: "neutral",
     breathing: true,
@@ -19,6 +26,20 @@ export function usePresenter() {
   });
   const exprTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const nextId = useRef(1);
+  const busRef = useRef<ReturnType<typeof openBus> | null>(null);
+  const dispatchRef = useRef<(cmd: Command) => void>(() => {});
+
+  useEffect(() => {
+    busRef.current = openBus((message) => {
+      if (syncMode === "receive" && message.type === "command") {
+        dispatchRef.current(message.cmd);
+      }
+    });
+    return () => {
+      busRef.current?.close();
+      busRef.current = null;
+    };
+  }, [syncMode]);
 
   const setExpression = useCallback((value: Expression, durationMs = 2200) => {
     if (exprTimer.current) clearTimeout(exprTimer.current);
@@ -61,9 +82,14 @@ export function usePresenter() {
           break;
         }
       }
+      if (syncMode === "send") busRef.current?.post({ type: "command", cmd });
     },
-    [setExpression],
+    [setExpression, syncMode],
   );
+
+  useEffect(() => {
+    dispatchRef.current = dispatch;
+  }, [dispatch]);
 
   // Natural random blinking
   useEffect(() => {
@@ -79,9 +105,12 @@ export function usePresenter() {
     return () => clearTimeout(t);
   }, [state.autoBlink, dispatch]);
 
-  useEffect(() => () => {
-    if (exprTimer.current) clearTimeout(exprTimer.current);
-  }, []);
+  useEffect(
+    () => () => {
+      if (exprTimer.current) clearTimeout(exprTimer.current);
+    },
+    [],
+  );
 
   const toggle = useCallback((key: "breathing" | "autoBlink" | "idleHead") => {
     setState((s) => ({ ...s, [key]: !s[key] }));
