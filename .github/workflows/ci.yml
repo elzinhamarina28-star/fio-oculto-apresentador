@@ -27,4 +27,5 @@ jobs:
       - name: Lint
         run: bun run lint
       - name: Build
+        if: always()
         run: bun run build
