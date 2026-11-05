@@ -3,7 +3,7 @@
 Este diretório reúne os materiais de interação e a organização das trilhas do Fio Oculto.
 
 ## Biblioteca musical preparada
-O pacote criativo entregue inclui 10 faixas com letra (5 em português brasileiro e 5 em inglês) e 10 prompts instrumentais. As letras e os prompts completos estão no ZIP entregue nesta conversa; os títulos e a direção sonora são:
+O pacote criativo inclui 10 faixas com letra (5 em português brasileiro e 5 em inglês) e 10 instrumentais. As letras e os prompts completos das faixas com voz permanecem no pacote criativo entregue à usuária. Os títulos e a direção sonora são:
 
 ### Faixas com letra
 1. O Fio da Meada — pop de podcast e mistério divertido.
@@ -18,6 +18,8 @@ O pacote criativo entregue inclui 10 faixas com letra (5 em português brasileir
 10. A Little More Mystery — dream-pop cinematográfico.
 
 ### Instrumentais
+A ordem oficial e os prompts fornecidos estão registrados em [trilhas-instrumentais.json](./trilhas-instrumentais.json).
+
 11. Sala de Investigação
 12. Arquivo Secreto
 13. Café com Suspeita
@@ -28,6 +30,8 @@ O pacote criativo entregue inclui 10 faixas com letra (5 em português brasileir
 18. Modo Conversa
 19. Intervalo Curioso
 20. Encerramento em Aberto
+
+A faixa 20 está cadastrada pelo título; o prompt/descrição sonora ainda não foi informado no catálogo e não será inventado. Os caminhos dos MP3 serão vinculados quando os arquivos finais forem adicionados ao repositório.
 
 ## Regras de integração
 - A música de fundo deve ficar abaixo da fala e reduzir automaticamente durante TTS (ducking).

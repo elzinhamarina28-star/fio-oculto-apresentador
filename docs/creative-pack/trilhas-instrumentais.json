@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "project": "FIO OCULTO",
+  "description": "Catálogo oficial das dez instrumentais, preservando a ordem e os prompts fornecidos.",
+  "tracks": [
+    {
+      "number": 11,
+      "id": "sala-de-investigacao",
+      "title": "Sala de Investigação",
+      "type": "instrumental",
+      "bpm": 80,
+      "style": "light mystery podcast background",
+      "prompt": "instrumental, light mystery podcast background, soft sparse piano, round bass, subtle tape texture, soft electronic pulse, curious pads, 80 BPM, warm and intriguing, controlled mids, lots of space for a speaking voice",
+      "audioAsset": null
+    },
+    {
+      "number": 12,
+      "id": "arquivo-secreto",
+      "title": "Arquivo Secreto",
+      "type": "instrumental",
+      "bpm": 82,
+      "style": "minimalist cinematic",
+      "prompt": "instrumental, minimalist cinematic, soft marimba, delicate pizzicato, warm analog synth, light clock-like percussion, 82 BPM, opening a confidential folder, subtle build, seamless loop",
+      "audioAsset": null
+    },
+    {
+      "number": 13,
+      "id": "cafe-com-suspeita",
+      "title": "Café com Suspeita",
+      "type": "instrumental",
+      "bpm": 76,
+      "style": "lo-fi jazz for casual chat",
+      "prompt": "instrumental, lo-fi jazz for casual chat, electric piano, acoustic upright bass, brushed drums, clean guitar, very discreet musical ambience, 76 BPM, cozy and witty, continuous background, no abrupt changes",
+      "audioAsset": null
+    },
+    {
+      "number": 14,
+      "id": "teoria-maluca",
+      "title": "Teoria Maluca",
+      "type": "instrumental",
+      "bpm": 96,
+      "style": "light pop-funk",
+      "prompt": "instrumental, light pop-funk, bouncy bass, soft claps, muted guitar, fun synths, 96 BPM, funny unexpected theory energy, short instrumental chorus that loops",
+      "audioAsset": null
+    },
+    {
+      "number": 15,
+      "id": "o-gato-esta-observando",
+      "title": "O Gato Está Observando",
+      "type": "instrumental",
+      "bpm": 88,
+      "style": "mysterious and cute lounge",
+      "prompt": "instrumental, mysterious and cute lounge, upright bass, staccato piano, string pizzicato, brushed drums, 88 BPM, elegant humor, leaves space for dialogue, no animal sounds",
+      "audioAsset": null
+    },
+    {
+      "number": 16,
+      "id": "virada-de-roteiro",
+      "title": "Virada de Roteiro",
+      "type": "instrumental",
+      "bpm": 100,
+      "style": "cinematic electronic",
+      "prompt": "instrumental, cinematic electronic, controlled synth bass, clean pop beat, staccato strings, short harmonic rise, 100 BPM, positive plot twist, no danger, easy to cut or loop",
+      "audioAsset": null
+    },
+    {
+      "number": 17,
+      "id": "pista-encontrada",
+      "title": "Pista Encontrada",
+      "type": "instrumental",
+      "bpm": 92,
+      "style": "short and optimistic",
+      "prompt": "instrumental, short and optimistic, bright piano, soft bells, soft bass, light percussion, 92 BPM, small collective victory, not triumphant, no loud fanfare",
+      "audioAsset": null
+    },
+    {
+      "number": 18,
+      "id": "modo-conversa",
+      "title": "Modo Conversa",
+      "type": "instrumental",
+      "bpm": 72,
+      "style": "extremely discreet ambient",
+      "prompt": "instrumental, extremely discreet ambient, warm pads, felt piano, soft sub bass, almost imperceptible organic texture, 72 BPM, stable harmony, no dominant melody, no strong transients, background for long speech",
+      "audioAsset": null
+    },
+    {
+      "number": 19,
+      "id": "intervalo-curioso",
+      "title": "Intervalo Curioso",
+      "type": "instrumental",
+      "bpm": 90,
+      "style": "chill-pop transition",
+      "prompt": "instrumental, chill-pop transition, clean guitar with soft delay, airy synths, soft electronic drums, round bass, 90 BPM, light modern inviting, small rise, clean exit",
+      "audioAsset": null
+    },
+    {
+      "number": 20,
+      "id": "encerramento-em-aberto",
+      "title": "Encerramento em Aberto",
+      "type": "instrumental",
+      "bpm": null,
+      "style": null,
+      "prompt": null,
+      "audioAsset": null,
+      "notes": "Título registrado. A descrição sonora não foi incluída no texto recebido; preservar para preenchimento sem inventar."
+    }
+  ],
+  "integration": {
+    "target": "OBS Studio",
+    "behavior": [
+      "trilha por cena",
+      "loop quando indicado",
+      "crossfade entre faixas",
+      "ducking durante fala"
+    ],
+    "audioAssetsCommitted": false,
+    "note": "Os caminhos dos áudios serão preenchidos quando os arquivos finais forem adicionados ao repositório."
+  }
+}
