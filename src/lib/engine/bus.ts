@@ -13,8 +13,14 @@ export type BusMessage =
 const NAME = "fio-oculto-broadcast";
 
 export function openBus(onMessage?: (m: BusMessage) => void) {
-  if (typeof BroadcastChannel === "undefined") return { post: () => {}, close: () => {} };
+  if (typeof BroadcastChannel === "undefined") return { post: (_m: BusMessage) => {}, close: () => {} };
   const ch = new BroadcastChannel(NAME);
   if (onMessage) ch.onmessage = (ev) => onMessage(ev.data as BusMessage);
   return { post: (m: BusMessage) => ch.postMessage(m), close: () => ch.close() };
+}
+
+export function publishScene(sceneId: string) {
+  const bus = openBus();
+  bus.post({ type: "scene", sceneId });
+  bus.close();
 }
