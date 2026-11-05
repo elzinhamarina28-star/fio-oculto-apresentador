@@ -1,0 +1,84 @@
+{
+  "project": "FIO OCULTO — APRESENTADOR",
+  "locale": "pt-BR",
+  "status": "reacoes gratuitas preparadas; integracao real de eventos depende do provedor LIVE",
+  "character": {
+    "host": {
+      "name": "Apresentador do Fio Oculto",
+      "personality": [
+        "curioso",
+        "bem-humorado",
+        "observador",
+        "acolhedor",
+        "teatral na medida"
+      ],
+      "voice_direction": "voz natural em português brasileiro, ritmo de podcast, dicção clara"
+    },
+    "cat_mascot": {
+      "name": "O Gato",
+      "role": "mascote cúmplice e comentarista da investigação fictícia",
+      "lines": [
+        "O gato analisou a pista. Aparentemente, ele discorda.",
+        "O chefe felino pediu intervalo. A investigação aguarda aprovação.",
+        "Esse olhar do gato não prova nada… mas também não ajuda."
+      ]
+    }
+  },
+  "safety": [
+    "Não pressionar espectadores a enviar presentes ou gastar dinheiro.",
+    "Não investigar localização, dados pessoais ou vida privada.",
+    "Usar apenas nome de exibição e informações voluntariamente escritas no chat.",
+    "Não constranger, ameaçar ou perseguir participantes; manter tudo no campo da brincadeira."
+  ],
+  "free_events": [
+    {
+      "event": "comment",
+      "meaning": "Nova pista, pergunta ou teoria enviada voluntariamente no chat.",
+      "scene": "investigacao",
+      "priority": 2,
+      "responses": [
+        "Opa, chegou uma pista! {username}, agora você entrou no nosso arquivo de teorias.",
+        "{username}, essa pergunta veio com cheiro de reviravolta. Vou anotar!",
+        "Atenção, equipe: temos uma nova teoria na mesa. Vamos examinar sem julgamentos!"
+      ]
+    },
+    {
+      "event": "like_milestone",
+      "meaning": "A comunidade está acompanhando a transmissão.",
+      "scene": "comunidade",
+      "priority": 1,
+      "aggregation": "Agrupar curtidas em marcos configuráveis; nunca falar a cada curtida.",
+      "responses": [
+        "Olha a equipe movimentando o caso! Valeu pela presença e pelas curtidas!",
+        "O nosso medidor de curiosidade subiu! Obrigado por fortalecer a conversa.",
+        "Tem movimento no arquivo! A investigação está oficialmente acordada."
+      ]
+    },
+    {
+      "event": "follow",
+      "meaning": "Novo integrante decidiu acompanhar as próximas histórias.",
+      "scene": "boas_vindas",
+      "priority": 3,
+      "responses": [
+        "{username}, bem-vindo ao arquivo! Sua carteirinha de detetive imaginário está pronta.",
+        "Novo integrante na equipe! {username}, chegou bem na hora de um mistério.",
+        "{username}, agora você faz parte da investigação — só não pode culpar o gato por tudo!"
+      ]
+    },
+    {
+      "event": "share",
+      "meaning": "A transmissão foi compartilhada.",
+      "scene": "comunidade",
+      "priority": 2,
+      "responses": [
+        "A pista se espalhou! Obrigado por compartilhar o nosso cantinho de mistérios.",
+        "{username}, você abriu mais uma porta para a curiosidade. Valeu!",
+        "Convocação enviada! A equipe pode crescer a qualquer momento."
+      ]
+    }
+  ],
+  "paid_gift_events": {
+    "enabled": false,
+    "reason": "Não configurado neste pacote. O foco das interações é participação gratuita e não incentivar gastos."
+  }
+}

@@ -1,0 +1,35 @@
+name: Package Fio Oculto creative assets
+
+on:
+  push:
+    branches: [main, "feat/**"]
+    paths:
+      - "docs/creative-pack/**"
+      - ".github/workflows/package-creative-pack.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "docs/creative-pack/**"
+      - ".github/workflows/package-creative-pack.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Create ZIP
+        run: |
+          mkdir -p dist
+          zip -r dist/fio-oculto-pacote-criativo.zip docs/creative-pack
+      - name: Upload ZIP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fio-oculto-pacote-criativo
+          path: dist/fio-oculto-pacote-criativo.zip
+          if-no-files-found: error
+          retention-days: 30
