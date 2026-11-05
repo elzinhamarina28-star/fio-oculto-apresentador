@@ -1,4 +1,5 @@
 import type { Command, PresenterState } from "@/lib/presenter/types";
+import { publishScene } from "@/lib/engine/bus";
 
 interface Props {
   state: PresenterState;
@@ -30,6 +31,17 @@ export function ControlPanel({ state, dispatch, toggle }: Props) {
         <Btn onClick={() => dispatch({ type: "expression", value: "neutral" })}>Neutra</Btn>
         <Btn onClick={() => dispatch({ type: "expression", value: "happy" })}>Feliz</Btn>
         <Btn onClick={() => dispatch({ type: "expression", value: "surprised" })}>Surpresa</Btn>
+      </Section>
+
+      <Section title="Cena da transmissão">
+        <Btn onClick={() => publishScene("investigacao")}>Investigação</Btn>
+        <Btn onClick={() => publishScene("conversa")}>Conversa</Btn>
+        <Btn onClick={() => publishScene("gato")}>Modo Gato</Btn>
+        <Btn onClick={() => publishScene("dossie")}>Dossiê</Btn>
+        <Btn onClick={() => publishScene("modo-caos")}>Modo Caos</Btn>
+        <Btn onClick={() => publishScene("transicao")}>Transição</Btn>
+        <Btn onClick={() => publishScene("descoberta")}>Descoberta</Btn>
+        <Btn onClick={() => publishScene("encerramento")}>Encerramento</Btn>
       </Section>
 
       <Section title="Simular reação">
