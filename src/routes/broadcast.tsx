@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SpriteRig } from "@/components/presenter/SpriteRig";
 import { usePresenter } from "@/lib/presenter/use-presenter";
+import { SceneMusicPlayer } from "@/components/presenter/SceneMusicPlayer";
 
 export const Route = createFileRoute("/broadcast")({
   head: () => ({
@@ -15,6 +16,7 @@ function Broadcast() {
   return (
     <main className="broadcast-page" aria-label="Saída visual do Fio Oculto para OBS">
       <SpriteRig state={state} onReactionDone={removeReaction} />
+      <SceneMusicPlayer />
     </main>
   );
 }
