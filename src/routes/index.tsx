@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SpriteRig } from "@/components/presenter/SpriteRig";
 import { ControlPanel } from "@/components/presenter/ControlPanel";
+import { MusicPanel } from "@/components/presenter/MusicPanel";
 import { usePresenter } from "@/lib/presenter/use-presenter";
 
 export const Route = createFileRoute("/")({
@@ -22,7 +23,10 @@ function Index() {
   return (
     <main className="presenter-page">
       <SpriteRig state={state} onReactionDone={removeReaction} />
-      <ControlPanel state={state} dispatch={dispatch} toggle={toggle} />
+      <div className="side-col">
+        <ControlPanel state={state} dispatch={dispatch} toggle={toggle} />
+        <MusicPanel />
+      </div>
     </main>
   );
 }

@@ -20,7 +20,7 @@ export type Command =
   | { type: "nod" }
   | { type: "tilt" }
   | { type: "expression"; value: Expression; durationMs?: number }
-  | { type: "reaction"; kind: ReactionKind };
+  | { type: "reaction"; kind: ReactionKind; source?: "demo" | "live"; label?: string };
 
 export interface PresenterState {
   expression: Expression;

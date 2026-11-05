@@ -47,6 +47,11 @@ export class MusicEngine {
     if (t) { t.volume = v; this.apply(); }
   }
 
+  /** Manual test playback of a single track. */
+  playTrack(id: string) { this.playScene(id, 400); }
+  stop() { this.playScene(null, 400); }
+  get playingId() { return this.currentId; }
+
   /** Smoothly switches to the scene's track (or silence when null). */
   playScene(trackId: string | null, fadeMs = 1200) {
     if (trackId === this.currentId) return;

@@ -50,7 +50,7 @@ export interface PresenterReaction {
 export function reactTo(e: LiveEvent, gifts: GiftConfig, pick = Math.random): PresenterReaction {
   const key = e.kind === "gift" ? `gift:${e.tier}` : e.kind;
   const options = LINES[key] ?? [""];
-  const speech = fill(options[Math.floor(pick() * options.length) % options.length], e);
+  const speech = fill(options[Math.floor(pick() * options.length) % options.length] ?? "", e);
   const source = e.source === "demo" ? "demo" : "live";
   const commands: Command[] = [];
   const reaction = (kind: ReactionKind, label: string) =>

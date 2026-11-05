@@ -46,10 +46,10 @@ export class EventQueue {
     if (!this.items.length) return undefined;
     let best = 0;
     for (let i = 1; i < this.items.length; i++) {
-      const a = this.items[i], b = this.items[best];
+      const a = this.items[i]!, b = this.items[best]!;
       if (priorityOf(a.e) > priorityOf(b.e) || (priorityOf(a.e) === priorityOf(b.e) && a.seq < b.seq)) best = i;
     }
-    return this.items.splice(best, 1)[0].e;
+    return this.items.splice(best, 1)[0]!.e;
   }
 
   snapshot(): LiveEvent[] {

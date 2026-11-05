@@ -13,8 +13,8 @@ export const SCENES: Scene[] = [
   { id: "estudio", name: "Estúdio", background: studio.url, musicTrackId: null },
 ];
 
-export const DEFAULT_SCENE_ID = SCENES[0].id;
+export const DEFAULT_SCENE_ID = SCENES[0]!.id;
 
 export function getScene(id: string): Scene {
-  return SCENES.find((s) => s.id === id) ?? SCENES[0];
+  return SCENES.find((s) => s.id === id) ?? SCENES[0]!;
 }

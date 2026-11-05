@@ -12,11 +12,11 @@ export interface LiveEvent {
   kind: LiveEventKind;
   source: EventSource;
   at: number;
-  user?: string;
-  text?: string;
+  user?: string | undefined;
+  text?: string | undefined;
   /** likes: milestone reached; gift: amount */
-  count?: number;
-  tier?: GiftTier;
+  count?: number | undefined;
+  tier?: GiftTier | undefined;
 }
 
 export const PRIORITY: Record<string, number> = {
@@ -42,7 +42,7 @@ const SOURCES: EventSource[] = ["demo", "tiktok-live"];
 /** Validates untrusted input (from a provider or the demo panel). */
 export function validateEvent(input: unknown): ValidationResult {
   if (!input || typeof input !== "object") return { ok: false, error: "evento inválido" };
-  const e = input as Record<string, unknown>;
+  const e = input as { [K in "id"|"kind"|"source"|"at"|"user"|"text"|"count"|"tier"]?: unknown };
   if (typeof e.id !== "string" || !e.id) return { ok: false, error: "id ausente" };
   if (!KINDS.includes(e.kind as LiveEventKind)) return { ok: false, error: "tipo desconhecido" };
   if (!SOURCES.includes(e.source as EventSource)) return { ok: false, error: "origem ausente ou desconhecida" };
