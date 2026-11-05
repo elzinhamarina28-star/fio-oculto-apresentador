@@ -40,8 +40,17 @@ describe("conversation layer", () => {
     expect(createEventInteraction(gift, DEFAULT_CONVERSATION_SETTINGS, 10000, 9000).reason).toBe("cooldown");
   });
 
-  it("does not store viewer information", () => {
-    const result = createEventInteraction(gift, DEFAULT_CONVERSATION_SETTINGS, 10000);
-    expect(JSON.stringify(result)).not.toContain("Lia");
+  it("sanitizes control characters and markup from viewer text", () => {
+    const event: LiveEvent = {
+      id: "demo-comment-unsafe",
+      kind: "comment",
+      source: "demo",
+      at: 10000,
+      user: "Rafa",
+      text: "<script>oi</script>\u0000",
+    };
+    const reply = createConversationReply(event, "misterioso", () => 0);
+    expect(reply).not.toContain("<script>");
+    expect(reply).not.toContain("\u0000");
   });
 });
