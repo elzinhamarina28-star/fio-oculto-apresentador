@@ -5,6 +5,11 @@ const REACTION_EXPRESSION: Record<ReactionKind, Expression> = {
   like: "happy",
   follow: "happy",
   gift: "surprised",
+  wow: "surprised",
+  laugh: "happy",
+  dance: "happy",
+  detective: "neutral",
+  suspicious: "neutral",
 };
 
 export function usePresenter() {
@@ -51,9 +56,9 @@ export function usePresenter() {
           const id = nextId.current++;
           setState((s) => ({
             ...s,
-            reactions: [...s.reactions, { id, kind: cmd.kind, source: "manual-test" }],
+            reactions: [...s.reactions, { id, kind: cmd.kind, source: cmd.source ?? "manual-test", label: cmd.label }],
             headGesture: {
-              kind: cmd.kind === "gift" ? "tilt" : "nod",
+              kind: ["gift", "wow", "detective", "suspicious"].includes(cmd.kind) ? "tilt" : "nod",
               key: s.headGesture.key + 1,
             },
           }));
