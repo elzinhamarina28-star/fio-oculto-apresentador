@@ -25,6 +25,7 @@ const Input = z.object({
       text: z.string().max(300).optional(),
       count: z.number().optional(),
       giftName: z.string().max(60).optional(),
+      diamonds: z.number().min(0).max(1_000_000).optional(),
       giftHint: z.string().max(200).optional(),
     })
     .optional(),
