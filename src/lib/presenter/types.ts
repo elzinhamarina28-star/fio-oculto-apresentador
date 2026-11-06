@@ -6,7 +6,7 @@
  */
 export type Expression = "neutral" | "happy" | "surprised";
 
-export type ReactionKind = "like" | "follow" | "gift" | "wow" | "laugh" | "dance" | "detective" | "suspicious";
+export type ReactionKind = "like" | "follow" | "gift" | "wow" | "laugh" | "dance" | "detective" | "suspicious" | "catbite" | "challenge" | "profile";
 
 export interface Reaction {
   id: number;
