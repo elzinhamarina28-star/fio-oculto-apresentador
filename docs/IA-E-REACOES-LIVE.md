@@ -15,7 +15,7 @@
 
 ## Configuração de voz
 
-O servidor precisa de `ELEVENLABS_API_KEY`. Opcionalmente, configure `ELEVENLABS_VOICE_ID` para escolher outra voz. Nunca coloque a chave em código frontend, em variáveis `VITE_*` ou no GitHub.
+O servidor que hospeda a aplicação precisa receber `ELEVENLABS_API_KEY` como segredo de ambiente. Opcionalmente, configure `ELEVENLABS_VOICE_ID` para escolher outra voz. Um Secret cadastrado apenas no GitHub Actions não é automaticamente enviado ao servidor do Lovable. Nunca coloque a chave em código frontend, em variáveis `VITE_*` ou em arquivos do repositório.
 
 O primeiro clique em **Ativar áudio** libera o áudio do navegador. Depois, **Testar voz** faz uma chamada real ao endpoint e consome os créditos/limites da conta ElevenLabs.
 
@@ -23,13 +23,13 @@ O primeiro clique em **Ativar áudio** libera o áudio do navegador. Depois, **T
 
 A captura não é automática. Para conectar:
 
-1. Abra o TikFinity no mesmo computador que executa a página/OBS.
-2. Conecte o TikFinity à conta e à LIVE.
-3. Confirme que o WebSocket local está habilitado na porta `21213`.
-4. Na Central de inteligência, clique em **Conectar TikFinity**.
-5. Confirme o estado conectado e faça um teste com comentário ou presente real de baixo impacto.
+1. O aplicativo TikFinity Desktop precisa estar aberto no mesmo computador que executa o OBS e a página do overlay.
+2. O Event API / WebSocket local do TikFinity precisa estar habilitado e disponível na porta `21213`.
+3. A Central de inteligência conecta ao endereço local `ws://localhost:21213/`.
+4. O painel mostra separadamente o estado do socket e o último evento recebido; estar conectado não prova, sozinho, que os eventos estão chegando.
+5. Os tipos tratados pelo código são `chat`, `like`, `follow`, `social` (quando a ação é follow) e `gift`. `share`, `roomUser` e `subscribe` ainda não disparam reações.
 
-O overlay conecta em `ws://localhost:21213/`. Em uma página HTTPS, o navegador/ambiente pode bloquear WebSocket local inseguro; se isso ocorrer, será necessário um gateway local compatível com WSS ou uma configuração de navegador/OBS adequada. Não cole tokens ou cookies do TikTok no painel.
+O endpoint `ws://localhost:21213/` e a exigência de executar o TikFinity Desktop no mesmo computador são documentados pelo próprio TikFinity. Se a prévia hospedada não conseguir acessar o serviço local, teste o overlay como Browser Source do OBS no mesmo PC; não exponha a porta local à internet nem cole tokens ou cookies no painel.
 
 O estado conectado confirma apenas o WebSocket local. A confirmação de que os eventos reais estão chegando depende de uma LIVE ativa e de um teste observado no painel.
 
@@ -46,7 +46,8 @@ Os 47 manifests de áudio em `src/assets/audio/` e o player musical foram preser
 ## Limites conhecidos
 
 - O painel de demonstração usa eventos marcados como `demo`; eles não são eventos reais.
-- TikFinity precisa estar instalado/aberto e conectado à LIVE no computador do operador.
+- TikFinity Desktop e o overlay precisam executar no mesmo computador para a Event API local.
+- A utilização real do TikTok LIVE e de Presentes depende da elegibilidade e dos requisitos de idade do TikTok; mantenha a demonstração para testes se a conta não for elegível.
 - O navegador precisa permitir o áudio após o clique em **Ativar áudio**.
 - A movimentação da boca acompanha o nível do áudio, como aproximação visual; não é sincronização fonética por visemas.
 - Não publicar/deploy automaticamente. Validar a prévia e o áudio no OBS antes de uma transmissão real.
