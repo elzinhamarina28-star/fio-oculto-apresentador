@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 
 import studio from "@/assets/presenter/studio.jpg.asset.json";
 import desk from "@/assets/presenter/desk.png.asset.json";
