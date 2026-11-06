@@ -16,6 +16,8 @@ export interface LiveEvent {
   text?: string | undefined;
   /** likes: milestone reached; gift: amount */
   count?: number | undefined;
+  /** likes: incremental likes in this event packet */
+  delta?: number | undefined;
   tier?: GiftTier | undefined;
   giftId?: string | undefined;
   giftName?: string | undefined;
@@ -52,6 +54,7 @@ type EventInput = {
   user?: unknown;
   text?: unknown;
   count?: unknown;
+  delta?: unknown;
   tier?: unknown;
   giftId?: unknown;
   giftName?: unknown;
@@ -73,6 +76,8 @@ export function validateEvent(input: unknown): ValidationResult {
     return { ok: false, error: "usuário inválido" };
   if (event.text !== undefined && (typeof event.text !== "string" || event.text.length > 300))
     return { ok: false, error: "texto inválido" };
+  if (event.delta !== undefined && (typeof event.delta !== "number" || !Number.isFinite(event.delta) || event.delta < 0))
+    return { ok: false, error: "incremento inválido" };
   if (event.count !== undefined && (typeof event.count !== "number" || event.count < 0))
     return { ok: false, error: "quantidade inválida" };
   if (event.kind === "gift" && !TIERS.includes(event.tier as GiftTier))
@@ -108,6 +113,7 @@ export function validateEvent(input: unknown): ValidationResult {
       user: event.user as string | undefined,
       text: (event.text as string | undefined)?.trim(),
       count: event.count as number | undefined,
+      delta: event.delta as number | undefined,
       tier: event.tier as GiftTier | undefined,
       giftId: event.giftId as string | undefined,
       giftName: event.giftName as string | undefined,
