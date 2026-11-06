@@ -99,7 +99,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
     </section>
   );
 }
-function Btn({ children, onClick, variant }: { children: React.ReactNode; onClick: () => void; variant?: "hot"; disabled?: boolean }) {
+function Btn({ children, onClick, variant, disabled }: { children: React.ReactNode; onClick: () => void; variant?: "hot"; disabled?: boolean }) {
   return (
     <button type="button" className="cp-btn" data-variant={variant} onClick={onClick} disabled={disabled}>
       {children}
