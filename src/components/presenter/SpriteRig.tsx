@@ -56,6 +56,9 @@ const FX: Record<Reaction["kind"], { icons: string[]; label: string }> = {
   dance: { icons: ["🪩", "🎉", "💃", "🕺", "✨", "🎊"], label: "ATIVANDO O MODO FESTA!" },
   detective: { icons: ["🔎", "🕵️", "❓", "🗂️", "💡"], label: "PAUSA! TEMOS UMA PISTA!" },
   suspicious: { icons: ["🧐", "👀", "🤨", "❗", "👁️"], label: "HUM... ISSO ESTÁ SUSPEITO!" },
+  catbite: { icons: ["🐈", "😾", "💢", "🩹", "🐾"], label: "SOCORRO! O GATO VIROU ATRAÇÃO!" },
+  challenge: { icons: ["🏆", "⏱️", "🔥", "🎯", "🏆"], label: "DESAFIO ACEITO!" },
+  profile: { icons: ["🔎", "🗂️", "🕵️", "📌", "💡"], label: "DOSSIÊ DE BRINCADEIRA ABERTO!" },
 };
 
 function ReactionFx({ reaction, onDone }: { reaction: Reaction; onDone: (id: number) => void }) {
