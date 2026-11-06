@@ -6,6 +6,7 @@ import head from "@/assets/presenter/head.png.asset.json";
 import torso from "@/assets/presenter/torso.png.asset.json";
 import cat from "@/assets/presenter/cat.png";
 import { StudioTelevision } from "./StudioTelevision";
+import { LiveHud } from "./LiveHud";
 import { onMouthLevel } from "@/lib/engine/voice-provider";
 import type { PresenterRendererProps, Reaction } from "@/lib/presenter/types";
 
@@ -23,6 +24,7 @@ export function SpriteRig({ state, onReactionDone }: PresenterRendererProps) {
     <div className="presenter-stage" data-reaction={latestReaction?.kind ?? "idle"}>
       <img src={studio.url} alt="Estúdio Fio Oculto" className="presenter-bg" />
       <StudioTelevision />
+      <LiveHud />
       <div className="presenter-character" data-expression={state.expression} data-breathing={state.breathing} data-reaction={latestReaction?.kind ?? "idle"}>
         <div className="presenter-torso-wrap"><img src={torso.url} alt="" className="presenter-torso" /></div>
         <div ref={headAnchorRef} className="presenter-head-anchor" data-idle={state.idleHead}>
