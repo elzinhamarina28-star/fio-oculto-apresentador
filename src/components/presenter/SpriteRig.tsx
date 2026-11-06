@@ -50,6 +50,11 @@ const FX: Record<Reaction["kind"], { icon: string; label: string }> = {
   like: { icon: "♥", label: "Curtida" },
   follow: { icon: "✚", label: "Novo seguidor" },
   gift: { icon: "✦", label: "Presente" },
+  wow: { icon: "💥", label: "QUE CHEGADA!" },
+  laugh: { icon: "😂", label: "EU NÃO AGUENTO!" },
+  dance: { icon: "🎉", label: "BORA COMEMORAR!" },
+  detective: { icon: "🔎", label: "TEMOS UMA PISTA!" },
+  suspicious: { icon: "🧐", label: "ESTOU DE OLHO..." },
 };
 
 function ReactionFx({ reaction, onDone }: { reaction: Reaction; onDone: (id: number) => void }) {
@@ -66,7 +71,7 @@ function ReactionFx({ reaction, onDone }: { reaction: Reaction; onDone: (id: num
         </span>
       ))}
       <span className="fx-label">
-        {fx.label} <em>· teste</em>
+        {reaction.label || fx.label} {reaction.source === "demo" ? <em>· demonstração</em> : null}
       </span>
     </div>
   );
