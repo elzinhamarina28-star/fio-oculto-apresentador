@@ -1,6 +1,6 @@
 /**
  * Event Manager — event model + validation.
- * Every event carries an explicit `source`. "demo" events are produced only by the
+ * Every event carries an explicit source. "demo" events are produced only by the
  * demonstration panel and must never be presented as real TikTok LIVE events.
  */
 export type EventSource = "demo" | "tiktok-live";
@@ -31,57 +31,97 @@ export const PRIORITY: Record<string, number> = {
   likes: 20,
 };
 
-export function priorityOf(e: LiveEvent): number {
-  const key = e.kind === "gift" ? `gift:${e.tier ?? "common"}` : e.kind;
+export function priorityOf(event: LiveEvent): number {
+  const key = event.kind === "gift" ? `gift:${event.tier ?? "common"}` : event.kind;
   return PRIORITY[key] ?? 0;
 }
 
-export type ValidationResult = { ok: true; event: LiveEvent } | { ok: false; error: string };
+export type ValidationResult =
+  | { ok: true; event: LiveEvent }
+  | { ok: false; error: string };
 
 const KINDS: LiveEventKind[] = ["comment", "likes", "follow", "gift"];
 const TIERS: GiftTier[] = ["common", "special", "legendary"];
 const SOURCES: EventSource[] = ["demo", "tiktok-live"];
 
+type EventInput = {
+  id?: unknown;
+  kind?: unknown;
+  source?: unknown;
+  at?: unknown;
+  user?: unknown;
+  text?: unknown;
+  count?: unknown;
+  tier?: unknown;
+  giftId?: unknown;
+  giftName?: unknown;
+  diamonds?: unknown;
+};
+
 /** Validates untrusted input (from a provider or the demo panel). */
 export function validateEvent(input: unknown): ValidationResult {
   if (!input || typeof input !== "object") return { ok: false, error: "evento inválido" };
-  const e = input as { [K in "id"|"kind"|"source"|"at"|"user"|"text"|"count"|"tier"]?: unknown };
-  if (typeof e.id !== "string" || !e.id) return { ok: false, error: "id ausente" };
-  if (!KINDS.includes(e.kind as LiveEventKind)) return { ok: false, error: "tipo desconhecido" };
-  if (!SOURCES.includes(e.source as EventSource)) return { ok: false, error: "origem ausente ou desconhecida" };
-  if (typeof e.at !== "number" || !Number.isFinite(e.at)) return { ok: false, error: "data inválida" };
-  if (e.user !== undefined && (typeof e.user !== "string" || e.user.length > 64))
+  const event = input as EventInput;
+  if (typeof event.id !== "string" || !event.id) return { ok: false, error: "id ausente" };
+  if (!KINDS.includes(event.kind as LiveEventKind))
+    return { ok: false, error: "tipo desconhecido" };
+  if (!SOURCES.includes(event.source as EventSource))
+    return { ok: false, error: "origem ausente ou desconhecida" };
+  if (typeof event.at !== "number" || !Number.isFinite(event.at))
+    return { ok: false, error: "data inválida" };
+  if (event.user !== undefined && (typeof event.user !== "string" || event.user.length > 64))
     return { ok: false, error: "usuário inválido" };
-  if (e.text !== undefined && (typeof e.text !== "string" || e.text.length > 300))
+  if (event.text !== undefined && (typeof event.text !== "string" || event.text.length > 300))
     return { ok: false, error: "texto inválido" };
-  if (e.count !== undefined && (typeof e.count !== "number" || e.count < 0))
+  if (event.count !== undefined && (typeof event.count !== "number" || event.count < 0))
     return { ok: false, error: "quantidade inválida" };
-  if (e.kind === "gift" && !TIERS.includes(e.tier as GiftTier)) return { ok: false, error: "nível do presente inválido" };
-  if (e.giftId !== undefined && (typeof e.giftId !== "string" || e.giftId.length > 80)) return { ok: false, error: "id do presente inválido" };
-  if (e.giftName !== undefined && (typeof e.giftName !== "string" || e.giftName.length > 80)) return { ok: false, error: "nome do presente inválido" };
-  if (e.diamonds !== undefined && (typeof e.diamonds !== "number" || !Number.isFinite(e.diamonds) || e.diamonds < 0 || e.diamonds > 1_000_000)) return { ok: false, error: "valor do presente inválido" };
-  if (e.kind === "comment" && !(typeof e.text === "string" && e.text.trim())) return { ok: false, error: "comentário vazio" };
+  if (event.kind === "gift" && !TIERS.includes(event.tier as GiftTier))
+    return { ok: false, error: "nível do presente inválido" };
+  if (
+    event.giftId !== undefined &&
+    (typeof event.giftId !== "string" || event.giftId.length > 80)
+  )
+    return { ok: false, error: "id do presente inválido" };
+  if (
+    event.giftName !== undefined &&
+    (typeof event.giftName !== "string" || event.giftName.length > 80)
+  )
+    return { ok: false, error: "nome do presente inválido" };
+  if (
+    event.diamonds !== undefined &&
+    (typeof event.diamonds !== "number" ||
+      !Number.isFinite(event.diamonds) ||
+      event.diamonds < 0 ||
+      event.diamonds > 1_000_000)
+  )
+    return { ok: false, error: "valor do presente inválido" };
+  if (event.kind === "comment" && !(typeof event.text === "string" && event.text.trim()))
+    return { ok: false, error: "comentário vazio" };
+
   return {
     ok: true,
     event: {
-      id: e.id,
-      kind: e.kind as LiveEventKind,
-      source: e.source as EventSource,
-      at: e.at,
-      user: e.user as string | undefined,
-      text: (e.text as string | undefined)?.trim(),
-      count: e.count as number | undefined,
-      tier: e.tier as GiftTier | undefined,
-      giftId: e.giftId as string | undefined,
-      giftName: e.giftName as string | undefined,
-      diamonds: e.diamonds as number | undefined,
+      id: event.id,
+      kind: event.kind as LiveEventKind,
+      source: event.source as EventSource,
+      at: event.at,
+      user: event.user as string | undefined,
+      text: (event.text as string | undefined)?.trim(),
+      count: event.count as number | undefined,
+      tier: event.tier as GiftTier | undefined,
+      giftId: event.giftId as string | undefined,
+      giftName: event.giftName as string | undefined,
+      diamonds: event.diamonds as number | undefined,
     },
   };
 }
 
-/** Returns the like milestones crossed when the total goes from `prev` to `next`. */
+/** Returns the like milestones crossed when the total goes from prev to next. */
 export function crossedMilestones(prev: number, next: number, milestones: number[]): number[] {
-  return [...milestones].sort((a, b) => a - b).filter((m) => m > prev && m <= next);
+  return [...milestones]
+    .sort((a, b) => a - b)
+    .filter((milestone) => milestone > prev && milestone <= next);
 }
 
-export const sourceLabel = (s: EventSource) => (s === "demo" ? "Demonstração" : "TikTok LIVE");
+export const sourceLabel = (source: EventSource) =>
+  source === "demo" ? "Demonstração" : "TikTok LIVE";
