@@ -41,7 +41,7 @@ export function mapTikfinity(msg: Raw, now = Date.now()): Record<string, unknown
       const name = str(d["giftName"]);
       const diamonds = num(d["diamondCount"]) ?? 1;
       const g = findGift(name, diamonds);
-      return { ...base, id: id("g"), kind: "gift", tier: g.tier, count: num(d["repeatCount"]) ?? 1, text: name?.slice(0, 60) };
+      return { ...base, id: id("g"), kind: "gift", tier: g.tier, count: num(d["repeatCount"]) ?? 1, giftId: str(d["giftId"]) ?? g.id, giftName: name?.slice(0, 60) ?? g.name };
     }
     default:
       return null;
@@ -59,10 +59,18 @@ export class TikfinityProvider implements LiveEventProvider {
     return new Promise<void>((resolve, reject) => {
       let opened = false;
       const ws = new WebSocket(this.url);
+      const timeout = setTimeout(() => {
+        if (!opened && this.ws === ws) {
+          this.ws = null;
+          ws.close();
+          reject(new Error("Tempo esgotado ao procurar o TikFinity em localhost:21213."));
+        }
+      }, 8000);
       this.ws = ws;
-      ws.onopen = () => { opened = true; resolve(); };
-      ws.onerror = () => { if (!opened) reject(new Error("TikFinity não encontrado neste computador")); };
+      ws.onopen = () => { opened = true; clearTimeout(timeout); resolve(); };
+      ws.onerror = () => { if (!opened) { clearTimeout(timeout); reject(new Error("TikFinity não encontrado neste computador")); } };
       ws.onclose = () => {
+        clearTimeout(timeout);
         if (this.ws !== ws) return;
         this.ws = null;
         if (opened) this.onLost?.("TikFinity fechou a conexão");
