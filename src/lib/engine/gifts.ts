@@ -64,7 +64,7 @@ export function tierForDiamonds(diamonds: number): GiftTier {
 }
 
 function normalizeGiftName(value: string): string {
-  return value.normalize("NFD").replace(/[\\u0300-\\u036f]/g, "").trim().toLowerCase().replace(/\\s+/g, " ");
+  return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toLowerCase().replace(/\s+/g, " ");
 }
 
 export function findGift(name: string | undefined, diamonds = 1): GiftReaction {
