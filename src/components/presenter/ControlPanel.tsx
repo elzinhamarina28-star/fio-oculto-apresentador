@@ -9,11 +9,20 @@ interface Props {
 
 export function ControlPanel({ state, dispatch, toggle }: Props) {
   const daily = getDailySegment();
+  const speak = (text: string) => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "pt-BR";
+    utterance.rate = 1.04;
+    utterance.pitch = 1.08;
+    window.speechSynthesis.speak(utterance);
+  };
   return (
     <aside className="control-panel">
       <header>
         <h2>Painel de teste</h2>
-        <p>Acionamento manual. Nenhum evento real do TikTok está conectado.</p>
+        <p>Modo de demonstração. A voz usa a síntese disponível no navegador; eventos reais do TikTok ainda precisam de uma fonte conectada.</p>
       </header>
 
       <Section title="Ciclo ocioso">
@@ -49,9 +58,11 @@ export function ControlPanel({ state, dispatch, toggle }: Props) {
         <p className="daily-show-copy"><strong>Assunto:</strong> {daily.topic}</p>
         <p className="daily-show-copy"><strong>Desafio:</strong> {daily.challenge}</p>
         <p className="daily-show-copy"><strong>História-relâmpago:</strong> {daily.storyStarter}</p>
+        <Btn variant="hot" onClick={() => speak("O assunto de hoje é: " + daily.topic + " " + daily.challenge + " " + daily.storyStarter)}>🔊 Ouvir atrações do dia</Btn>
         <Btn variant="hot" onClick={() => dispatch({ type: "reaction", kind: "challenge", label: "VALENDO! O CHAT DECIDE SE ELE CONSEGUE!" })}>🏆 Lançar desafio</Btn>
         <Btn variant="hot" onClick={() => dispatch({ type: "reaction", kind: "profile", label: "ABRINDO DOSSIÊ PÚBLICO... SÓ VALE O QUE VOCÊ COMPARTILHAR!" })}>🔎 Investigação divertida</Btn>
         <Btn variant="hot" onClick={() => dispatch({ type: "reaction", kind: "catbite", label: "SOCORRO! O GATO ATACOU O APRESENTADOR!" })}>🐈 Gato mordendo</Btn>
+        <Btn onClick={() => speak("Alô, chat! Cheguei para investigar, contar histórias e descobrir quem está aprontando por aqui!")}>🎙️ Testar voz</Btn>
       </Section>
     </aside>
   );
