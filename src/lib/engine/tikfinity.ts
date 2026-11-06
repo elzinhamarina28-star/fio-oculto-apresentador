@@ -47,7 +47,7 @@ export function mapTikfinity(msg: Raw, now = Date.now()): Record<string, unknown
         num(data["totalCount"]);
       const count = num(data["likeCount"]) ?? num(data["count"]) ?? 1;
       accumulatedLikes = total ?? accumulatedLikes + count;
-      return { ...base, id: id("l"), kind: "likes", count: accumulatedLikes };
+      return { ...base, id: id("l"), kind: "likes", count: accumulatedLikes, delta: count };
     }
     case "follow":
       return { ...base, id: id("f"), kind: "follow" };
