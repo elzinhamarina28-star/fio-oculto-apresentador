@@ -27,7 +27,7 @@ export function getGiftShow(giftName = "", giftId = "") {
   if (/rose|rosa/.test(key)) return { kind: "dance" as const, line: "Uma rosa! O apresentador já quer abrir um jardim cenográfico!" };
   if (/galaxy|universo|planet/.test(key)) return { kind: "detective" as const, line: "Presente intergaláctico! Investigação em outra dimensão!" };
   if (/coffee|cafe|café/.test(key)) return { kind: "laugh" as const, line: "Café recebido! Agora vai falar até com as paredes!" };
-  if (/heart|coracao|coração/.test(key)) return { kind: "happy" as const, line: "Chegou carinho! O coração cenográfico não estava preparado!" };
+  if (/heart|coracao|coração/.test(key)) return { kind: "laugh" as const, line: "Chegou carinho! O coração cenográfico não estava preparado!" };
   if (/cat|gato|paw|pata/.test(key)) return { kind: "catbite" as const, line: "GATO! TIRA ESSE GATO DO MEU MICROFONE!" };
   const kinds = ["wow", "dance", "laugh", "detective", "suspicious"] as const;
   const seed = hash(key || "misterio");
