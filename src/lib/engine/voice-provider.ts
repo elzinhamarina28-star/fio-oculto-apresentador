@@ -30,6 +30,8 @@ export class ElevenLabsVoice implements SpeechProvider {
 
   async speak(text: string, signal: AbortSignal) {
     if (signal.aborted) return;
+    // Resume the audio context before the network round-trip; browsers require a user gesture.
+    this.unlock();
     let res: Response;
     try {
       res = await fetch("/api/tts", {

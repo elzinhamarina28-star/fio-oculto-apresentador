@@ -16,6 +16,13 @@ function tone(c: AudioContext, freq: number, start: number, dur: number, type: O
   o.stop(c.currentTime + start + dur);
 }
 
+/** Call from the operator's activation click so later LIVE events can play effects. */
+export function unlockSfx() {
+  if (typeof AudioContext === "undefined") return;
+  ctx ??= new AudioContext();
+  void ctx.resume();
+}
+
 export function playSfx(name: SfxName) {
   if (typeof AudioContext === "undefined") return;
   ctx ??= new AudioContext();

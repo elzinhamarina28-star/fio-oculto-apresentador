@@ -30,6 +30,8 @@ export function dayIndex(now: Date = new Date()): number {
 }
 
 export function topicForDate(now: Date = new Date()): DailyTopic {
-  const i = ((dayIndex(now) % TOPICS.length) + TOPICS.length) % TOPICS.length;
+  const day = dayIndex(now);
+  // A coprime multiplier shuffles the topic order while keeping one stable draw per local day.
+  const i = (((day * 5 + 3) % TOPICS.length) + TOPICS.length) % TOPICS.length;
   return TOPICS[i]!;
 }

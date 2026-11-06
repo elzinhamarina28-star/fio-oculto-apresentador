@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SpriteRig } from "@/components/presenter/SpriteRig";
 import { ControlPanel } from "@/components/presenter/ControlPanel";
 import { MusicPanel } from "@/components/presenter/MusicPanel";
+import { LiveAssistantPanel } from "@/components/presenter/LiveAssistantPanel";
 import { usePresenter } from "@/lib/presenter/use-presenter";
 
 export const Route = createFileRoute("/")({
@@ -25,6 +26,7 @@ function Index() {
       <SpriteRig state={state} onReactionDone={removeReaction} />
       <div className="side-col">
         <ControlPanel state={state} dispatch={dispatch} toggle={toggle} />
+        <LiveAssistantPanel dispatch={dispatch} />
         <MusicPanel />
       </div>
     </main>

@@ -17,6 +17,9 @@ export interface LiveEvent {
   /** likes: milestone reached; gift: amount */
   count?: number | undefined;
   tier?: GiftTier | undefined;
+  giftId?: string | undefined;
+  giftName?: string | undefined;
+  diamonds?: number | undefined;
 }
 
 export const PRIORITY: Record<string, number> = {
@@ -54,6 +57,9 @@ export function validateEvent(input: unknown): ValidationResult {
   if (e.count !== undefined && (typeof e.count !== "number" || e.count < 0))
     return { ok: false, error: "quantidade inválida" };
   if (e.kind === "gift" && !TIERS.includes(e.tier as GiftTier)) return { ok: false, error: "nível do presente inválido" };
+  if (e.giftId !== undefined && (typeof e.giftId !== "string" || e.giftId.length > 80)) return { ok: false, error: "id do presente inválido" };
+  if (e.giftName !== undefined && (typeof e.giftName !== "string" || e.giftName.length > 80)) return { ok: false, error: "nome do presente inválido" };
+  if (e.diamonds !== undefined && (typeof e.diamonds !== "number" || !Number.isFinite(e.diamonds) || e.diamonds < 0 || e.diamonds > 1_000_000)) return { ok: false, error: "valor do presente inválido" };
   if (e.kind === "comment" && !(typeof e.text === "string" && e.text.trim())) return { ok: false, error: "comentário vazio" };
   return {
     ok: true,
@@ -66,6 +72,9 @@ export function validateEvent(input: unknown): ValidationResult {
       text: (e.text as string | undefined)?.trim(),
       count: e.count as number | undefined,
       tier: e.tier as GiftTier | undefined,
+      giftId: e.giftId as string | undefined,
+      giftName: e.giftName as string | undefined,
+      diamonds: e.diamonds as number | undefined,
     },
   };
 }
