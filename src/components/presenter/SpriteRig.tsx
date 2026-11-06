@@ -1,35 +1,28 @@
-import { useEffect, useRef } from "react";
+
 import studio from "@/assets/presenter/studio.jpg.asset.json";
 import desk from "@/assets/presenter/desk.png.asset.json";
 import head from "@/assets/presenter/head.png.asset.json";
 import torso from "@/assets/presenter/torso.png.asset.json";
 import cat from "@/assets/presenter/cat.png";
 import { StudioTelevision } from "./StudioTelevision";
-import { onMouthLevel } from "@/lib/engine/voice-provider";
 import type { PresenterRendererProps, Reaction } from "@/lib/presenter/types";
 
 /** Lightweight layered presenter: CSS gestures, voice-driven mouth and the studio cat. */
 export function SpriteRig({ state, onReactionDone }: PresenterRendererProps) {
-  const mouthRef = useRef<HTMLSpanElement>(null);
   const gesture = state.headGesture.kind;
   const latestReaction = state.reactions[state.reactions.length - 1];
-
-  useEffect(() => onMouthLevel((level) => {
-    mouthRef.current?.style.setProperty("--mouth-level", String(level));
-  }), []);
 
   return (
     <div className="presenter-stage" data-reaction={latestReaction?.kind ?? "idle"}>
       <img src={studio.url} alt="Estúdio Fio Oculto" className="presenter-bg" />
       <StudioTelevision />
-      <div className="presenter-character" data-expression={state.expression} data-breathing={state.breathing}>
+      <div className="presenter-character" data-expression={state.expression} data-breathing={state.breathing} data-reaction={latestReaction?.kind ?? "idle"}>
         <div className="presenter-torso-wrap"><img src={torso.url} alt="" className="presenter-torso" /></div>
         <div className="presenter-head-anchor" data-idle={state.idleHead}>
           <div key={`g${state.headGesture.key}`} className="presenter-head" data-gesture={gesture ?? ""}>
             <img src={head.url} alt="Apresentador Fio Oculto" />
             <span key={`b${state.blinkKey}`} className="presenter-eyelid left" data-blink={state.blinkKey > 0} />
             <span key={`c${state.blinkKey}`} className="presenter-eyelid right" data-blink={state.blinkKey > 0} />
-            <span ref={mouthRef} className="presenter-mouth" aria-hidden="true" />
             {state.expression === "happy" && <span className="presenter-blush" />}
             {state.expression === "surprised" && <span className="presenter-exclaim">!</span>}
           </div>
