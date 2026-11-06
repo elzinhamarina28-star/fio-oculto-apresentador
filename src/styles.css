@@ -279,3 +279,5 @@
 @keyframes fo-cat-pounce { 0%{opacity:0;transform:translate(-60%,30%) scale(.2)} 30%{opacity:1} 55%{transform:translate(0,-20%) scale(1.4)} 100%{opacity:0;transform:translate(70%,-170%) rotate(25deg)} }
 @keyframes fo-challenge-burst { 0%{opacity:0;transform:scale(.2)} 30%{opacity:1} 100%{opacity:0;transform:translateY(-180%) scale(1.5) rotate(30deg)} }
 @keyframes fo-profile-clue { 0%{opacity:0;transform:translateY(25%) scale(.4)} 30%{opacity:1} 100%{opacity:0;transform:translateY(-170%) scale(1.25)} }
+
+.daily-show-copy { margin: 0; padding: .35rem .55rem; border-left: 2px solid var(--fo-blue); color: var(--fo-paper); font-size: .88rem; line-height: 1.45; }
