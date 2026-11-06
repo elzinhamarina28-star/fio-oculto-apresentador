@@ -1,3 +1,4 @@
+import { getDailySegment } from "@/lib/engine/daily-show";
 import type { Command, PresenterState } from "@/lib/presenter/types";
 
 interface Props {
@@ -7,6 +8,7 @@ interface Props {
 }
 
 export function ControlPanel({ state, dispatch, toggle }: Props) {
+  const daily = getDailySegment();
   return (
     <aside className="control-panel">
       <header>
@@ -41,6 +43,15 @@ export function ControlPanel({ state, dispatch, toggle }: Props) {
         <Btn variant="hot" onClick={() => dispatch({ type: "reaction", kind: "dance", label: "BORA COMEMORAR!" })}>🎉 Dança</Btn>
         <Btn variant="hot" onClick={() => dispatch({ type: "reaction", kind: "detective", label: "TEMOS UMA PISTA!" })}>🔎 Detetive</Btn>
         <Btn variant="hot" onClick={() => dispatch({ type: "reaction", kind: "suspicious", label: "ESTOU DE OLHO..." })}>🧐 Desconfiado</Btn>
+      </Section>
+
+      <Section title="Atrações do dia">
+        <p className="daily-show-copy"><strong>Assunto:</strong> {daily.topic}</p>
+        <p className="daily-show-copy"><strong>Desafio:</strong> {daily.challenge}</p>
+        <p className="daily-show-copy"><strong>História-relâmpago:</strong> {daily.storyStarter}</p>
+        <Btn variant="hot" onClick={() => dispatch({ type: "reaction", kind: "challenge", label: "VALENDO! O CHAT DECIDE SE ELE CONSEGUE!" })}>🏆 Lançar desafio</Btn>
+        <Btn variant="hot" onClick={() => dispatch({ type: "reaction", kind: "profile", label: "ABRINDO DOSSIÊ PÚBLICO... SÓ VALE O QUE VOCÊ COMPARTILHAR!" })}>🔎 Investigação divertida</Btn>
+        <Btn variant="hot" onClick={() => dispatch({ type: "reaction", kind: "catbite", label: "SOCORRO! O GATO ATACOU O APRESENTADOR!" })}>🐈 Gato mordendo</Btn>
       </Section>
     </aside>
   );
