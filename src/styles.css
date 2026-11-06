@@ -417,3 +417,86 @@
   .studio-tv { top: 5%; right: 4%; width: 29%; }
   .studio-tv-caption p { font-size: clamp(6px, 1.2vw, 9px); }
 }
+
+
+/* ===== Rig correction pass: keep motion attached to the character ===== */
+/* The current head artwork is a flattened PNG; do not draw a second mouth over it. */
+.presenter-mouth { display: none !important; }
+
+/* Reactions move the character's own torso/head layers instead of covering the face. */
+.presenter-character[data-reaction="wow"] .presenter-torso-wrap,
+.presenter-character[data-reaction="gift"] .presenter-torso-wrap,
+.presenter-character[data-reaction="confetti"] .presenter-torso-wrap {
+  animation: fo-body-surprise .75s ease-in-out 2;
+}
+.presenter-character[data-reaction="laugh"] .presenter-torso-wrap,
+.presenter-character[data-reaction="hearts"] .presenter-torso-wrap {
+  animation: fo-body-laugh .55s ease-in-out 4;
+}
+.presenter-character[data-reaction="dance"] .presenter-torso-wrap,
+.presenter-character[data-reaction="catwalk"] .presenter-torso-wrap {
+  animation: fo-body-dance .7s ease-in-out 3;
+}
+.presenter-character[data-reaction="catbite"] .presenter-torso-wrap {
+  animation: fo-body-flinch .38s ease-in-out 4;
+}
+.presenter-character[data-reaction="challenge"] .presenter-torso-wrap,
+.presenter-character[data-reaction="follow"] .presenter-torso-wrap {
+  animation: fo-body-confident .8s ease-in-out 2;
+}
+@keyframes fo-body-surprise {
+  0%,100% { transform: translateY(0) scale(1); }
+  35% { transform: translateY(-2.5%) scale(1.025); }
+  65% { transform: translateY(0) scale(.99); }
+}
+@keyframes fo-body-laugh {
+  0%,100% { transform: rotate(0); }
+  25%,75% { transform: rotate(-1.5deg) translateY(-1%); }
+  50% { transform: rotate(1.5deg) translateY(1%); }
+}
+@keyframes fo-body-dance {
+  0%,100% { transform: rotate(0) translateY(0); }
+  25% { transform: rotate(-3deg) translateY(-1%); }
+  75% { transform: rotate(3deg) translateY(-1%); }
+}
+@keyframes fo-body-flinch {
+  0%,100% { transform: translateX(0) rotate(0); }
+  35% { transform: translateX(-2.2%) rotate(-2deg); }
+  70% { transform: translateX(1.5%) rotate(1.5deg); }
+}
+@keyframes fo-body-confident {
+  0%,100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-1.5%) scale(1.015); }
+}
+
+/* The cat stays on the desk plane and travels only a short, bounded distance. */
+.presenter-cat {
+  left: 4%;
+  bottom: 13.5%;
+  width: 18%;
+  max-height: none;
+  height: auto;
+  object-fit: contain;
+  animation: fo-cat-patrol-bounded 16s ease-in-out infinite;
+}
+@keyframes fo-cat-patrol-bounded {
+  0%, 12%, 100% { transform: translateX(0) scaleX(1); }
+  38%, 45% { transform: translateX(115%) scaleX(1); }
+  48% { transform: translateX(115%) scaleX(-1); }
+  75% { transform: translateX(8%) scaleX(-1); }
+}
+.presenter-stage[data-reaction="catbite"] .presenter-cat {
+  animation: fo-cat-bite-bounded 1.05s ease-in-out 2;
+}
+.presenter-stage[data-reaction="catwalk"] .presenter-cat {
+  animation: fo-cat-dash-bounded 2s ease-in-out 1;
+}
+@keyframes fo-cat-bite-bounded {
+  0%,100% { transform: translateX(0) translateY(0) rotate(0) scale(1); }
+  35%,65% { transform: translateX(115%) translateY(-16%) rotate(-9deg) scale(1.04); }
+}
+@keyframes fo-cat-dash-bounded {
+  0%,100% { transform: translateX(0) scaleX(1); }
+  45% { transform: translateX(145%) translateY(-7%) scaleX(1); }
+  55% { transform: translateX(145%) translateY(-7%) scaleX(-1); }
+}
