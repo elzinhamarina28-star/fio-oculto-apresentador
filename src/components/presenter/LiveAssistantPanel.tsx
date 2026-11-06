@@ -27,6 +27,7 @@ const EFFECT_REACTION: Record<StageEffect, ReactionKind> = {
 export function LiveAssistantPanel({ dispatch }: Props) {
   const topic = topicForDate();
   const [connection, setConnection] = useState("Desconectado · TikFinity ainda não foi iniciado");
+  const [lastLiveEvent, setLastLiveEvent] = useState("Nenhum evento real recebido nesta sessão.");
   const [connected, setConnected] = useState(false);
   const [audioUnlocked, setAudioUnlocked] = useState(false);
   const [voiceStatus, setVoiceStatus] = useState("Voz pronta para ativação");
@@ -81,7 +82,8 @@ export function LiveAssistantPanel({ dispatch }: Props) {
             text: event.text,
             count: event.count,
             giftName: event.giftName,
-            giftHint: event.kind === "gift" ? findGift(event.giftName, 1).hint : undefined,
+            diamonds: event.diamonds,
+            giftHint: event.kind === "gift" ? findGift(event.giftName, event.diamonds ?? 1).hint : undefined,
           } : undefined,
         },
       });
@@ -112,6 +114,10 @@ export function LiveAssistantPanel({ dispatch }: Props) {
       return;
     }
     const event = checked.event;
+    if (event.source === "tiktok-live") {
+      const detail = event.kind === "gift" ? event.giftName : event.kind;
+      setLastLiveEvent(`Evento real recebido: ${detail ?? event.kind}${event.user ? ` · ${event.user}` : ""}`);
+    }
     const now = Date.now();
     if (event.kind === "comment") {
       if (now - lastCommentAt.current < 4500) return;
@@ -250,6 +256,7 @@ export function LiveAssistantPanel({ dispatch }: Props) {
       <section>
         <h3>Conexão TikTok LIVE · TikFinity</h3>
         <p className="assistant-status">{connection}</p>
+        <p className="assistant-status" role="status">{lastLiveEvent}</p>
         <div className="cp-row">
           <button type="button" className="cp-btn" data-variant="hot" onClick={() => void connectTikfinity()} disabled={connected || busy}>Conectar TikFinity</button>
           <button type="button" className="cp-btn" onClick={() => void disconnectTikfinity()} disabled={!providerRef.current}>Desconectar</button>
