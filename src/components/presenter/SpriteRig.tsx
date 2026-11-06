@@ -43,6 +43,7 @@ export function SpriteRig({ state, onReactionDone }: PresenterRendererProps) {
       </div>
 
       <img src={cat} alt="" className="presenter-cat" aria-hidden="true" />
+      <div className="channel-glitch" aria-label="Canal Fio Oculto">FIO OCULTO</div>
       <img src={desk.url} alt="" className="presenter-desk" />
       <div className="presenter-fx">
         {state.reactions.map((reaction) => (
