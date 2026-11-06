@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { hostSpeak } from "@/lib/host-ai.functions";
 import { topicForDate } from "@/lib/engine/daily-topic";
 import { findGift, type StageEffect } from "@/lib/engine/gifts";
-import { playSfx } from "@/lib/engine/sfx";
+import { playSfx, unlockSfx } from "@/lib/engine/sfx";
 import { TikfinityProvider } from "@/lib/engine/tikfinity";
 import { validateEvent, type LiveEvent } from "@/lib/engine/events";
 import { ElevenLabsVoice } from "@/lib/engine/voice-provider";
@@ -146,6 +146,7 @@ export function LiveAssistantPanel({ dispatch }: Props) {
 
   const activateAudio = () => {
     voiceRef.current?.unlock();
+    unlockSfx();
     setAudioUnlocked(true);
     setVoiceStatus("Áudio ativado. O apresentador já pode falar.");
   };
