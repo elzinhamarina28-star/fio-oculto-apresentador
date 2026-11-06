@@ -81,6 +81,10 @@ export function createConversationReply(
   personality: ConversationSettings["personality"] = "misterioso",
   pick: () => number = Math.random,
 ): string {
+  if (event.kind === "gift") {
+    const show = getGiftShow(event.giftName ?? "", event.giftId ?? "");
+    return `${clean(event.user ?? "pessoal", 32)}: ${show.line}`;
+  }
   const options = reactions[personality][eventKey(event)];
   const template = options[Math.floor(Math.max(0, Math.min(0.999999, pick())) * options.length)] ?? options[0] ?? "";
   const user = clean(event.user ?? "pessoal", 32) || "pessoal";
