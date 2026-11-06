@@ -3,7 +3,7 @@ name: Fio Oculto Live checks
 on:
   push:
     branches:
-      - feat/fio-oculto-live-finalization
+      - main
   pull_request:
     branches:
       - main
@@ -20,10 +20,12 @@ jobs:
         with:
           bun-version: latest
       - run: bun install --frozen-lockfile
-      - run: bun run test
-      - name: Lint (baseline has existing repository-wide Prettier violations)
+      - name: Unit tests
+        run: bun run test
+      - name: ESLint
         run: bun run lint
+      - name: Prettier formatting check (existing repository formatting debt)
+        run: bun run format:check
         continue-on-error: true
       - name: Production build
-        if: always()
         run: bun run build
