@@ -28,6 +28,12 @@ export function SpriteRig({ state, onReactionDone }: PresenterRendererProps) {
         <div ref={headAnchorRef} className="presenter-head-anchor" data-idle={state.idleHead}>
           <div key={`g${state.headGesture.key}`} className="presenter-head" data-gesture={gesture ?? ""}>
             <img src={head.url} alt="Apresentador Fio Oculto" />
+            <span className="presenter-mouth-mask" aria-hidden="true" />
+            <svg className="presenter-mouth-live" viewBox="0 0 120 54" aria-hidden="true">
+              <path className="mouth-closed" d="M8 10 Q60 48 112 10 Q91 53 60 48 Q29 53 8 10Z" />
+              <path className="mouth-open" d="M8 8 Q60 50 112 8 Q110 50 60 52 Q10 50 8 8Z" />
+              <path className="mouth-tongue" d="M38 39 Q60 31 82 39 Q74 51 60 50 Q46 50 38 39Z" />
+            </svg>
             <span key={`b${state.blinkKey}`} className="presenter-eyelid left" data-blink={state.blinkKey > 0} />
             <span key={`c${state.blinkKey}`} className="presenter-eyelid right" data-blink={state.blinkKey > 0} />
             {state.expression === "happy" && <span className="presenter-blush" />}
