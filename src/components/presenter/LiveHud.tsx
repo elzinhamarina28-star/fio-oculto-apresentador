@@ -21,8 +21,8 @@ export function LiveHud() {
         if (item.kind === "comment") next.comments = [...next.comments, item].slice(-4);
         if (item.kind === "likes") {
           const amount = Math.max(1, item.count ?? 1);
-          next.likes += amount;
-          if (item.user) next.likers[item.user] = (next.likers[item.user] ?? 0) + amount;
+          next.likes = Math.max(next.likes, item.count ?? (next.likes + (item.delta ?? amount)));
+          if (item.user) next.likers[item.user] = (next.likers[item.user] ?? 0) + (item.delta ?? amount);
         }
         if (item.kind === "follow") next.followers += 1;
         if (item.kind === "gift") next.diamonds += item.diamonds ?? 0;
