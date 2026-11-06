@@ -35,6 +35,8 @@ export const GIFTS: GiftReaction[] = [
     hint: "fique tímido e derretido, de brincadeira", fallback: "{user}, assim eu fico sem graça… o gato está com ciúmes." },
   { id: "doughnut", name: "Rosquinha", match: ["doughnut", "donut", "rosquinha"], tier: "common", icon: "🍩", animation: "jump", expression: "happy", effect: "cat-walk", sfx: "meow",
     hint: "o gato tenta roubar a rosquinha", fallback: "Obrigado pela rosquinha, {user}! Ei, gato, larga isso!" },
+  { id: "cat-paw", name: "Patinha", match: ["cat paw", "paw", "pata de gato", "patinha"], tier: "common", icon: "🐾", animation: "shake", expression: "surprised", effect: "cat-bite", sfx: "meow",
+    hint: "o gato interrompe o apresentador e tenta roubar o presente", fallback: "{user}, você chamou o gato?! Ele já está mordendo meu braço!" },
   { id: "perfume", name: "Perfume", match: ["perfume"], tier: "special", icon: "✧", animation: "spin", expression: "surprised", effect: "spotlight", sfx: "chime",
     hint: "diga que o perfume revelou uma pista misteriosa", fallback: "Perfume de {user}… esse cheiro é de mistério resolvido." },
   { id: "galaxy", name: "Galáxia", match: ["galaxy", "galáxia"], tier: "special", icon: "🌌", animation: "shake", expression: "surprised", effect: "stars", sfx: "whoosh",
