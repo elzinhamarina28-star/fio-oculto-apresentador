@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import studio from "@/assets/presenter/studio.jpg.asset.json";
 import desk from "@/assets/presenter/desk.png.asset.json";
@@ -6,12 +6,18 @@ import head from "@/assets/presenter/head.png.asset.json";
 import torso from "@/assets/presenter/torso.png.asset.json";
 import cat from "@/assets/presenter/cat.png";
 import { StudioTelevision } from "./StudioTelevision";
+import { onMouthLevel } from "@/lib/engine/voice-provider";
 import type { PresenterRendererProps, Reaction } from "@/lib/presenter/types";
 
 /** Lightweight layered presenter: CSS gestures, voice-driven mouth and the studio cat. */
 export function SpriteRig({ state, onReactionDone }: PresenterRendererProps) {
   const gesture = state.headGesture.kind;
   const latestReaction = state.reactions[state.reactions.length - 1];
+  const headAnchorRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => onMouthLevel((level) => {
+    headAnchorRef.current?.style.setProperty("--voice-level", String(Math.max(0, Math.min(1, level))));
+  }), []);
 
   return (
     <div className="presenter-stage" data-reaction={latestReaction?.kind ?? "idle"}>
@@ -19,7 +25,7 @@ export function SpriteRig({ state, onReactionDone }: PresenterRendererProps) {
       <StudioTelevision />
       <div className="presenter-character" data-expression={state.expression} data-breathing={state.breathing} data-reaction={latestReaction?.kind ?? "idle"}>
         <div className="presenter-torso-wrap"><img src={torso.url} alt="" className="presenter-torso" /></div>
-        <div className="presenter-head-anchor" data-idle={state.idleHead}>
+        <div ref={headAnchorRef} className="presenter-head-anchor" data-idle={state.idleHead}>
           <div key={`g${state.headGesture.key}`} className="presenter-head" data-gesture={gesture ?? ""}>
             <img src={head.url} alt="Apresentador Fio Oculto" />
             <span key={`b${state.blinkKey}`} className="presenter-eyelid left" data-blink={state.blinkKey > 0} />
