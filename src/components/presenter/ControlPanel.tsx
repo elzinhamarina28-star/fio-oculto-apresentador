@@ -35,7 +35,12 @@ export function ControlPanel({ state, dispatch, toggle }: Props) {
       <Section title="Simular reação">
         <Btn variant="hot" onClick={() => dispatch({ type: "reaction", kind: "like" })}>♥ Curtida</Btn>
         <Btn variant="hot" onClick={() => dispatch({ type: "reaction", kind: "follow" })}>✚ Seguidor</Btn>
-        <Btn variant="hot" onClick={() => dispatch({ type: "reaction", kind: "gift" })}>✦ Presente</Btn>
+        <Btn variant="hot" onClick={() => dispatch({ type: "reaction", kind: "gift", label: "Presente recebido!" })}>✦ Presente</Btn>
+        <Btn variant="hot" onClick={() => dispatch({ type: "reaction", kind: "wow", label: "QUE CHEGADA!" })}>💥 Espanto</Btn>
+        <Btn variant="hot" onClick={() => dispatch({ type: "reaction", kind: "laugh", label: "EU NÃO AGUENTO!" })}>😂 Risada</Btn>
+        <Btn variant="hot" onClick={() => dispatch({ type: "reaction", kind: "dance", label: "BORA COMEMORAR!" })}>🎉 Dança</Btn>
+        <Btn variant="hot" onClick={() => dispatch({ type: "reaction", kind: "detective", label: "TEMOS UMA PISTA!" })}>🔎 Detetive</Btn>
+        <Btn variant="hot" onClick={() => dispatch({ type: "reaction", kind: "suspicious", label: "ESTOU DE OLHO..." })}>🧐 Desconfiado</Btn>
       </Section>
     </aside>
   );
