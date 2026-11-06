@@ -420,6 +420,13 @@
 
 
 /* ===== Rig correction pass: keep motion attached to the character ===== */
+/* The head artwork is currently flattened: react to the real TTS signal without adding a detached mouth. */
+.presenter-head-anchor {
+  translate: 0 calc(var(--voice-level, 0) * -1.1%);
+  transition: translate 55ms linear;
+  will-change: translate;
+}
+
 /* The current head artwork is a flattened PNG; do not draw a second mouth over it. */
 .presenter-mouth { display: none !important; }
 
