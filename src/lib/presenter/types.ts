@@ -1,18 +1,19 @@
 /**
  * Presenter rig contract.
- * The current implementation (SpriteRig) animates static image layers with CSS.
- * A future rigged / Live2D renderer only needs to implement `PresenterRenderer`
- * props, consuming the same state + commands, without touching the control panel.
+ * The renderer keeps animation lightweight and uses CSS + layered image assets.
  */
 export type Expression = "neutral" | "happy" | "surprised";
 
-export type ReactionKind = "like" | "follow" | "gift";
+export type ReactionKind =
+  | "like" | "follow" | "gift" | "wow" | "laugh" | "dance"
+  | "detective" | "suspicious" | "catbite" | "catwalk" | "challenge"
+  | "profile" | "hearts" | "confetti" | "spotlight" | "stars" | "rain" | "clues";
 
 export interface Reaction {
   id: number;
   kind: ReactionKind;
-  /** Origin of the reaction. Only "manual-test" exists until a real live integration is connected. */
-  source: "manual-test";
+  source: "manual-test" | "demo" | "live";
+  label?: string;
 }
 
 export type Command =
@@ -27,7 +28,6 @@ export interface PresenterState {
   breathing: boolean;
   autoBlink: boolean;
   idleHead: boolean;
-  /** Incremented to retrigger one-shot animations. */
   blinkKey: number;
   headGesture: { kind: "nod" | "tilt" | null; key: number };
   reactions: Reaction[];
