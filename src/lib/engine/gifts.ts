@@ -63,9 +63,13 @@ export function tierForDiamonds(diamonds: number): GiftTier {
   return "common";
 }
 
+function normalizeGiftName(value: string): string {
+  return value.normalize("NFD").replace(/[\\u0300-\\u036f]/g, "").trim().toLowerCase().replace(/\\s+/g, " ");
+}
+
 export function findGift(name: string | undefined, diamonds = 1): GiftReaction {
-  const n = (name ?? "").trim().toLowerCase();
-  const hit = n ? GIFTS.find((g) => g.match.some((m) => m === n)) : undefined;
+  const n = normalizeGiftName(name ?? "");
+  const hit = n ? GIFTS.find((g) => g.match.some((m) => normalizeGiftName(m) === n)) : undefined;
   if (hit) return hit;
   const tier = tierForDiamonds(diamonds);
   return { id: `unknown:${n || tier}`, name: name?.trim() || "Presente", match: [], ...TIER_DEFAULTS[tier] };
