@@ -2,10 +2,15 @@ import { validateEvent, type EventSource, type LiveEvent } from "./events";
 
 /**
  * Integration Adapter — isolates event providers from the rest of the app.
- * A future TikTok LIVE provider must run through the backend (credentials never in the
- * browser) and implement `LiveEventProvider`. No real provider is connected yet.
+ * TikFinity Desktop exposes its local Event API over WebSocket; the browser overlay
+ * connects to that local endpoint and validates every received event.
  */
-export type ConnectionStatus = "disconnected" | "connecting" | "connected" | "reconnecting" | "error";
+export type ConnectionStatus =
+  | "disconnected"
+  | "connecting"
+  | "connected"
+  | "reconnecting"
+  | "error";
 
 export interface LiveEventProvider {
   readonly id: string;
@@ -34,7 +39,7 @@ export class IntegrationAdapter {
 
   constructor(
     private provider: LiveEventProvider,
-    private onEvent: (e: LiveEvent) => void,
+    private onEvent: (event: LiveEvent) => void,
     private onChange: () => void,
     private opts: AdapterOptions = { maxRetries: 5, baseDelayMs: 1000 },
   ) {}
@@ -47,8 +52,8 @@ export class IntegrationAdapter {
       this.retries = 0;
       this.setStatus("connected");
       this.write("info", `Conectado: ${this.provider.id}`);
-    } catch (err) {
-      this.write("error", `Falha ao conectar: ${err instanceof Error ? err.message : "erro"}`);
+    } catch (error) {
+      this.write("error", `Falha ao conectar: ${error instanceof Error ? error.message : "erro"}`);
       this.scheduleReconnect();
     }
   }
@@ -79,29 +84,45 @@ export class IntegrationAdapter {
   }
 
   receive(raw: unknown) {
-    const r = validateEvent(raw);
-    if (!r.ok) return this.write("warn", `Evento rejeitado: ${r.error}`);
-    if (r.event.source !== this.provider.source)
+    const result = validateEvent(raw);
+    if (!result.ok) return this.write("warn", `Evento rejeitado: ${result.error}`);
+    if (result.event.source !== this.provider.source)
       return this.write("warn", "Evento rejeitado: origem não corresponde ao provedor");
-    this.onEvent(r.event);
+    this.onEvent(result.event);
   }
 
-  private setStatus(s: ConnectionStatus) { this.status = s; this.onChange(); }
+  private setStatus(status: ConnectionStatus) {
+    this.status = status;
+    this.onChange();
+  }
+
   private write(level: AdapterLogEntry["level"], message: string) {
     this.log = [{ at: Date.now(), level, message }, ...this.log].slice(0, 100);
     this.onChange();
   }
 }
 
-/** Demo provider: only emits what the operator triggers in the panel; always source "demo". */
+/** Demo provider: only emits what the operator triggers in the panel; always source demo. */
 export class DemoProvider implements LiveEventProvider {
   readonly id = "demonstracao";
   readonly source = "demo" as const;
   private emit: ((raw: unknown) => void) | null = null;
   private n = 0;
-  async connect(emit: (raw: unknown) => void) { this.emit = emit; }
-  async disconnect() { this.emit = null; }
-  trigger(e: Omit<LiveEvent, "id" | "source" | "at">) {
-    this.emit?.({ ...e, id: `demo-${Date.now()}-${this.n++}`, source: "demo", at: Date.now() });
+
+  async connect(emit: (raw: unknown) => void) {
+    this.emit = emit;
+  }
+
+  async disconnect() {
+    this.emit = null;
+  }
+
+  trigger(event: Omit<LiveEvent, "id" | "source" | "at">) {
+    this.emit?.({
+      ...event,
+      id: `demo-${Date.now()}-${this.n++}`,
+      source: "demo",
+      at: Date.now(),
+    });
   }
 }
