@@ -1,3 +1,4 @@
+import { getGiftShow } from "./daily-show";
 import type { LiveEvent } from "./events";
 import type { Command } from "@/lib/presenter/types";
 
@@ -101,10 +102,11 @@ export function createEventInteraction(
   if (!speech.trim()) return { accepted: false, reason: "empty", commands: [] };
 
   const commands: Command[] = [];
-  if (event.kind === "comment") commands.push({ type: "tilt" });
+  if (event.kind === "comment") commands.push({ type: "tilt" }, { type: "reaction", kind: "detective", source: event.source === "demo" ? "demo" : "live", label: "A investigação do chat começou!" });
   if (event.kind === "gift") {
+    const show = getGiftShow(event.giftName ?? "", event.giftId ?? "");
     commands.push(
-      { type: "reaction", kind: "gift", source: event.source === "demo" ? "demo" : "live", label: "Presente recebido" },
+      { type: "reaction", kind: show.kind, source: event.source === "demo" ? "demo" : "live", label: show.line },
       { type: "expression", value: "happy", durationMs: 2200 },
     );
   }
