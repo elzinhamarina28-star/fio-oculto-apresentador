@@ -500,3 +500,85 @@
   45% { transform: translateX(145%) translateY(-7%) scaleX(1); }
   55% { transform: translateX(145%) translateY(-7%) scaleX(-1); }
 }
+
+
+/* ===== Visual correction: keep reaction effects off the presenter's face ===== */
+.presenter-fx .fx {
+  left: 3%;
+  top: 8%;
+  width: 22%;
+  height: 30%;
+}
+.presenter-fx .fx-label {
+  left: 0;
+  top: 0;
+  max-width: 100%;
+  white-space: normal;
+  text-align: center;
+  transform: none;
+}
+.presenter-fx .fx-particle {
+  left: calc(12% + var(--i) * 13%);
+  bottom: 8%;
+  font-size: clamp(.85rem, 2.1vw, 1.8rem);
+}
+/* Keep the cat on the tabletop plane and within the visible stage. */
+.presenter-cat {
+  z-index: 3;
+  left: 4%;
+  bottom: 13.5%;
+  width: 18%;
+  height: auto;
+  max-width: 18%;
+  max-height: 18%;
+  object-fit: contain;
+  transform-origin: 50% 90%;
+  animation: fo-cat-tabletop 17s ease-in-out infinite;
+}
+@keyframes fo-cat-tabletop {
+  0%, 10%, 100% { transform: translate(0,0) scaleX(1); }
+  35%, 42% { transform: translate(105%,0) scaleX(1); }
+  45% { transform: translate(105%,0) scaleX(-1); }
+  72% { transform: translate(8%,0) scaleX(-1); }
+}
+.presenter-stage[data-reaction="catbite"] .presenter-cat {
+  animation: fo-cat-bite-tabletop 1s ease-in-out 2;
+}
+@keyframes fo-cat-bite-tabletop {
+  0%,100% { transform: translate(0,0) rotate(0); }
+  38%,62% { transform: translate(105%,-9%) rotate(-7deg); }
+}
+.presenter-stage[data-reaction="catwalk"] .presenter-cat {
+  animation: fo-cat-walk-tabletop 1.8s ease-in-out 1;
+}
+@keyframes fo-cat-walk-tabletop {
+  0%,100% { transform: translate(0,0) scaleX(1); }
+  45% { transform: translate(125%,0) scaleX(1); }
+  55% { transform: translate(125%,0) scaleX(-1); }
+}
+/* Character reactions use the torso and head anchors, not floating stickers. */
+.presenter-character[data-reaction="wow"] .presenter-head-anchor,
+.presenter-character[data-reaction="gift"] .presenter-head-anchor,
+.presenter-character[data-reaction="confetti"] .presenter-head-anchor {
+  animation: fo-head-surprise .65s ease-out 2;
+}
+.presenter-character[data-reaction="laugh"] .presenter-head-anchor {
+  animation: fo-head-laugh .45s ease-in-out 4;
+}
+.presenter-character[data-reaction="detective"] .presenter-head-anchor,
+.presenter-character[data-reaction="profile"] .presenter-head-anchor {
+  animation: fo-head-investigate .9s ease-in-out 2;
+}
+@keyframes fo-head-surprise {
+  0%,100% { transform: translateY(0) scale(1); }
+  45% { transform: translateY(-4%) scale(1.035); }
+}
+@keyframes fo-head-laugh {
+  0%,100% { transform: rotate(0); }
+  25% { transform: rotate(-3deg) translateY(-1%); }
+  75% { transform: rotate(3deg) translateY(-1%); }
+}
+@keyframes fo-head-investigate {
+  0%,100% { transform: rotate(0); }
+  35%,70% { transform: rotate(-5deg) translateX(-1%); }
+}
