@@ -11,7 +11,8 @@ interface TvComment extends FirstCommentDetail {
 }
 
 const cleanForSpeech = (value: string, max = 180) =>
-  value.replace(/[\u0000-\u001f<>]/g, " ").replace(/\s+/g, " ").trim().slice(0, max);
+  value.split("").filter((char) => char.charCodeAt(0) >= 32 && char.charCodeAt(0) !== 127)
+    .join("").replace(/[<>]/g, " ").replace(/\s+/g, " ").trim().slice(0, max);
 
 /**
  * In-scene television. Every viewer activates it only on their first comment
