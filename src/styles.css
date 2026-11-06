@@ -675,3 +675,19 @@
 @media (prefers-reduced-motion: reduce) {
   .channel-glitch, .channel-glitch::before, .channel-glitch::after { animation: none; }
 }
+
+
+/* On-stream HUD: only real TikTok events update these counters. */
+.live-hud { position:absolute; z-index:7; inset:2.5% 2.5% 3%; display:flex; flex-direction:column; justify-content:space-between; pointer-events:none; color:#fff; text-shadow:0 1px 3px #000; }
+.live-hud-goals { position:absolute; right:0; top:0; display:grid; gap:.5rem; width:22%; }
+.live-hud-card { min-width:0; padding:.45rem .65rem; border:1px solid #ff344f; border-radius:.7rem; background:linear-gradient(120deg,rgba(9,7,15,.94),rgba(30,8,23,.88)); box-shadow:0 0 12px rgba(255,25,65,.3); display:grid; gap:.2rem; font-size:clamp(7px,.85vw,13px); }
+.live-hud-card strong { color:#ffdce4; font-size:clamp(6px,.72vw,11px); }
+.live-hud-card b { font-size:clamp(9px,1.1vw,16px); }
+.live-hud-card > span { height:5px; border-radius:9px; overflow:hidden; background:#45303d; }
+.live-hud-card > span i { display:block; height:100%; background:linear-gradient(90deg,#a52cff,#ff3d83); }
+.live-hud-bottom { display:flex; align-items:flex-end; justify-content:space-between; gap:1%; }
+.live-hud-likes { width:20%; }
+.live-hud-comments { width:27%; }
+.live-hud-card em { font-style:normal; opacity:.9; }
+.live-hud-comments p { margin:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:clamp(6px,.7vw,10px); }
+@media(max-width:640px) { .live-hud-goals{width:30%}.live-hud-likes{width:25%}.live-hud-comments{width:35%}.live-hud-card{padding:.25rem .35rem} }
