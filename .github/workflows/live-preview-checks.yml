@@ -1,0 +1,19 @@
+name: Live preview checks
+
+on:
+  push:
+    branches:
+      - "feat/ia-interativa-live"
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bun run test
+      - run: bun run build

@@ -6,13 +6,14 @@
  */
 export type Expression = "neutral" | "happy" | "surprised";
 
-export type ReactionKind = "like" | "follow" | "gift";
+export type ReactionKind = "like" | "follow" | "gift" | "wow" | "laugh" | "dance" | "detective" | "suspicious" | "catbite" | "challenge" | "profile";
 
 export interface Reaction {
   id: number;
   kind: ReactionKind;
   /** Origin of the reaction. Only "manual-test" exists until a real live integration is connected. */
-  source: "manual-test";
+  source: "manual-test" | "demo" | "live";
+  label?: string;
 }
 
 export type Command =

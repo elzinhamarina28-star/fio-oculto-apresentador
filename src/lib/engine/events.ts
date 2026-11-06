@@ -17,6 +17,9 @@ export interface LiveEvent {
   /** likes: milestone reached; gift: amount */
   count?: number | undefined;
   tier?: GiftTier | undefined;
+  /** Provider gift identity; used to select a unique reaction per gift. */
+  giftId?: string | undefined;
+  giftName?: string | undefined;
 }
 
 export const PRIORITY: Record<string, number> = {
@@ -42,7 +45,7 @@ const SOURCES: EventSource[] = ["demo", "tiktok-live"];
 /** Validates untrusted input (from a provider or the demo panel). */
 export function validateEvent(input: unknown): ValidationResult {
   if (!input || typeof input !== "object") return { ok: false, error: "evento inválido" };
-  const e = input as { [K in "id"|"kind"|"source"|"at"|"user"|"text"|"count"|"tier"]?: unknown };
+  const e = input as { [K in "id"|"kind"|"source"|"at"|"user"|"text"|"count"|"tier"|"giftId"|"giftName"]?: unknown };
   if (typeof e.id !== "string" || !e.id) return { ok: false, error: "id ausente" };
   if (!KINDS.includes(e.kind as LiveEventKind)) return { ok: false, error: "tipo desconhecido" };
   if (!SOURCES.includes(e.source as EventSource)) return { ok: false, error: "origem ausente ou desconhecida" };
@@ -53,6 +56,8 @@ export function validateEvent(input: unknown): ValidationResult {
     return { ok: false, error: "texto inválido" };
   if (e.count !== undefined && (typeof e.count !== "number" || e.count < 0))
     return { ok: false, error: "quantidade inválida" };
+  if (e.giftId !== undefined && (typeof e.giftId !== "string" || e.giftId.length > 80)) return { ok: false, error: "id do presente inválido" };
+  if (e.giftName !== undefined && (typeof e.giftName !== "string" || e.giftName.length > 80)) return { ok: false, error: "nome do presente inválido" };
   if (e.kind === "gift" && !TIERS.includes(e.tier as GiftTier)) return { ok: false, error: "nível do presente inválido" };
   if (e.kind === "comment" && !(typeof e.text === "string" && e.text.trim())) return { ok: false, error: "comentário vazio" };
   return {
@@ -66,6 +71,8 @@ export function validateEvent(input: unknown): ValidationResult {
       text: (e.text as string | undefined)?.trim(),
       count: e.count as number | undefined,
       tier: e.tier as GiftTier | undefined,
+      giftId: e.giftId as string | undefined,
+      giftName: e.giftName as string | undefined,
     },
   };
 }
