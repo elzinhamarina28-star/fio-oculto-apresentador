@@ -37,16 +37,18 @@ export function StudioTelevision() {
         ?? voices.find((voice) => voice.lang.toLowerCase().startsWith("pt"));
       if (portuguese) utterance.voice = portuguese;
       utterance.lang = portuguese?.lang ?? "pt-BR";
-      utterance.rate = comment?.character === "ghost" ? 0.94 : 1.04;
-      utterance.pitch = comment?.character === "ghost" ? 1.12 : 0.92;
+      utterance.rate = 1;
+      utterance.pitch = 1;
       utterance.volume = 0.9;
       activeRef.current = true;
       setSpeaking(true);
-      utterance.onend = utterance.onerror = () => {
+      const finish = () => {
         activeRef.current = false;
         setSpeaking(false);
         window.setTimeout(speakNext, 180);
       };
+      utterance.onend = finish;
+      utterance.onerror = finish;
       window.speechSynthesis.speak(utterance);
     };
 
@@ -75,7 +77,7 @@ export function StudioTelevision() {
       window.removeEventListener("fio:tv-first-comment", onFirstComment);
       queueRef.current = [];
     };
-  }, [comment?.character]);
+  }, []);
 
   useEffect(() => {
     if (!comment) return;
@@ -91,7 +93,7 @@ export function StudioTelevision() {
             <div key={comment.id} className={`studio-tv-show studio-tv-${comment.character}`}>
               <div className="studio-tv-character" aria-hidden="true">
                 {comment.character === "owl" ? (
-                  <><span className="tv-owl-ears">◆ ◆</span><span className="tv-owl-face"><i>●</i><i>●</i><b className={speaking ? "talking" : ""} /></span><span className="tv-owl-body">🟣</span></>
+                  <><span className="tv-owl-ears">◆ ◆</span><span className="tv-owl-face"><i>●</i><i>●</i><b className={speaking ? "talking" : ""} /></span><span className="tv-owl-body">🦉</span></>
                 ) : (
                   <><span className="tv-ghost-halo">✦</span><span className="tv-ghost-face"><i>●</i><i>●</i><b className={speaking ? "talking" : ""} /></span><span className="tv-ghost-body">👻</span></>
                 )}
