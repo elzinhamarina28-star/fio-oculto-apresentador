@@ -589,3 +589,11 @@
   0%,100% { transform: rotate(0); }
   35%,70% { transform: rotate(-5deg) translateX(-1%); }
 }
+
+/* Integrated voice mouth: replaces the original smile within the face artwork. */
+.presenter-mouth-mask { position:absolute; z-index:4; left:39%; top:64%; width:35%; height:15%; border-radius:50%; background:#f4f1f1; pointer-events:none; }
+.presenter-mouth-live { position:absolute; z-index:5; left:40.5%; top:65%; width:32%; height:13.5%; overflow:visible; transform-origin:50% 8%; transform:scaleY(calc(.72 + var(--voice-level, 0) * 1.55)); transition:transform 45ms linear; pointer-events:none; }
+.presenter-mouth-live .mouth-closed { fill:#171318; stroke:#09080b; stroke-width:4; opacity:calc(1 - min(1, var(--voice-level, 0) * 2.8)); }
+.presenter-mouth-live .mouth-open { fill:#171318; stroke:#09080b; stroke-width:4; opacity:calc(min(1, var(--voice-level, 0) * 3.2)); }
+.presenter-mouth-live .mouth-tongue { fill:#ed2639; opacity:calc(min(1, var(--voice-level, 0) * 3.2)); }
+@media (prefers-reduced-motion: reduce) { .presenter-mouth-live { transition:none; } }
