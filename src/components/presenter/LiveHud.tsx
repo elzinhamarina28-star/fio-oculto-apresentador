@@ -25,7 +25,7 @@ export function LiveHud() {
           if (item.user) next.likers[item.user] = (next.likers[item.user] ?? 0) + (item.delta ?? amount);
         }
         if (item.kind === "follow") next.followers += 1;
-        if (item.kind === "gift") next.diamonds += item.diamonds ?? 0;
+        if (item.kind === "gift") next.diamonds += (item.diamonds ?? 0) * Math.max(1, item.count ?? 1);
         return next;
       });
     };
@@ -35,8 +35,8 @@ export function LiveHud() {
   const top = Object.entries(data.likers).sort((a,b) => b[1]-a[1]).slice(0,3);
   return <div className="live-hud" aria-live="polite">
     <div className="live-hud-goals">
-      <div className="live-hud-card"><strong>✦ Meta de seguidores</strong><b>{compact(data.followers)} / {compact(FOLLOWER_GOAL)}</b><span><i style={{width: `${Math.min(100,data.followers/FOLLOWER_GOAL*100)}%`}} /></span></div>
-      <div className="live-hud-card"><strong>🎁 Meta de presentes</strong><b>{compact(data.diamonds)} / {compact(GIFT_GOAL)} diamantes</b><span><i style={{width: `${Math.min(100,data.diamonds/GIFT_GOAL*100)}%`}} /></span></div>
+      <div className="live-hud-card"><strong>✦ Novos seguidores nesta LIVE</strong><b>{compact(data.followers)} / {compact(FOLLOWER_GOAL)}</b><span><i style={{width: `${Math.min(100,data.followers/FOLLOWER_GOAL*100)}%`}} /></span></div>
+      <div className="live-hud-card"><strong>🎁 Diamantes nesta LIVE</strong><b>{compact(data.diamonds)} / {compact(GIFT_GOAL)} diamantes</b><span><i style={{width: `${Math.min(100,data.diamonds/GIFT_GOAL*100)}%`}} /></span></div>
     </div>
     <div className="live-hud-bottom">
       <div className="live-hud-card live-hud-likes"><strong>♥ Curtidas</strong><b>{compact(data.likes)}</b><small>Top 3 de quem mais curte</small>{top.length ? top.map(([name,count],i)=><em key={name}>{i+1}. {name} · {compact(count)}</em>) : <em>Aguardando curtidas...</em>}</div>
