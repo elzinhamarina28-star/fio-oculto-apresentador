@@ -41,6 +41,7 @@ export function LiveAssistantPanel({ dispatch }: Props) {
   const lastCommentAt = useRef(0);
   const lastLikeMilestone = useRef(0);
   const requestBusy = useRef(false);
+  const processEventRef = useRef<(raw: unknown) => void>(() => {});
 
   if (!voiceRef.current) {
     const voice = new ElevenLabsVoice();
@@ -141,6 +142,8 @@ export function LiveAssistantPanel({ dispatch }: Props) {
     void speakAI("event", event);
   }, [dispatch, speakAI]);
 
+  processEventRef.current = processEvent;
+
   const activateAudio = () => {
     voiceRef.current?.unlock();
     setAudioUnlocked(true);
@@ -163,7 +166,7 @@ export function LiveAssistantPanel({ dispatch }: Props) {
     providerRef.current = provider;
     setConnection("Procurando TikFinity em ws://localhost:21213/...");
     try {
-      await provider.connect(processEvent);
+      await provider.connect((raw) => processEventRef.current(raw));
       setConnected(true);
       setConnection("Conectado ao WebSocket local do TikFinity. Confirme que a LIVE está ativa no TikFinity.");
     } catch (error) {
