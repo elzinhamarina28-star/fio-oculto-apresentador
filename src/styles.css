@@ -597,3 +597,81 @@
 .presenter-mouth-live .mouth-open { fill:#171318; stroke:#09080b; stroke-width:4; opacity:calc(min(1, var(--voice-level, 0) * 3.2)); }
 .presenter-mouth-live .mouth-tongue { fill:#ed2639; opacity:calc(min(1, var(--voice-level, 0) * 3.2)); }
 @media (prefers-reduced-motion: reduce) { .presenter-mouth-live { transition:none; } }
+
+/* Studio cat: reclined beside the presenter, with playful belly-up rolls. */
+.presenter-cat {
+  left: 3.5%;
+  bottom: 13.5%;
+  width: 19%;
+  max-width: 19%;
+  max-height: 19%;
+  height: auto;
+  object-fit: contain;
+  transform-origin: 50% 55%;
+  animation: fo-cat-belly-up 8s ease-in-out infinite;
+}
+@keyframes fo-cat-belly-up {
+  0%, 14%, 100% { transform: rotate(-72deg) translateY(0) scale(1); }
+  24%, 38% { transform: rotate(-88deg) translateY(-3%) scale(1.02); }
+  48% { transform: rotate(-70deg) translateY(1%) scale(1); }
+  58%, 72% { transform: rotate(-94deg) translateY(-2%) scale(1.03); }
+  82% { transform: rotate(-72deg) translateY(0) scale(1); }
+}
+.presenter-stage[data-reaction="catbite"] .presenter-cat {
+  animation: fo-cat-belly-bounce 1s ease-in-out 2;
+}
+@keyframes fo-cat-belly-bounce {
+  0%, 100% { transform: rotate(-72deg) translateY(0); }
+  35%, 65% { transform: rotate(-105deg) translateY(-12%) scale(1.08); }
+}
+.channel-glitch {
+  position: absolute;
+  z-index: 6;
+  top: 4.5%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #f5e9ee;
+  font: 900 clamp(.8rem, 2.5vw, 2rem)/1 ui-sans-serif, system-ui;
+  letter-spacing: .12em;
+  text-shadow: 2px 0 #ff1744, -2px 0 #08a9ff, 0 0 12px #ff1744;
+  opacity: .9;
+  animation: fo-channel-interference 5.8s steps(1,end) infinite;
+  pointer-events: none;
+}
+.channel-glitch::before,
+.channel-glitch::after {
+  content: "FIO OCULTO";
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+.channel-glitch::before {
+  color: #ff1744;
+  transform: translateX(-2px);
+  clip-path: inset(15% 0 65% 0);
+  animation: fo-glitch-red 5.8s steps(1,end) infinite;
+}
+.channel-glitch::after {
+  color: #08a9ff;
+  transform: translateX(2px);
+  clip-path: inset(62% 0 12% 0);
+  animation: fo-glitch-blue 5.8s steps(1,end) infinite;
+}
+@keyframes fo-channel-interference {
+  0%, 88%, 100% { opacity: .9; filter: none; }
+  89% { opacity: .45; filter: blur(1px); }
+  90% { opacity: 1; filter: contrast(2); }
+  91% { opacity: .65; }
+}
+@keyframes fo-glitch-red {
+  0%, 88%, 100% { opacity: 0; }
+  89%, 91% { opacity: .9; transform: translateX(-5px); }
+}
+@keyframes fo-glitch-blue {
+  0%, 88%, 100% { opacity: 0; }
+  89%, 91% { opacity: .9; transform: translateX(5px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .channel-glitch, .channel-glitch::before, .channel-glitch::after { animation: none; }
+}
