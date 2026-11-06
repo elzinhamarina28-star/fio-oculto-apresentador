@@ -107,6 +107,8 @@ export function LiveAssistantPanel({ dispatch }: Props) {
     }
   }, [audioUnlocked, topic.title]);
 
+  const firstCommentersRef = useRef(new Set<string>());
+
   const processEvent = useCallback((raw: unknown) => {
     const checked = validateEvent(raw);
     if (!checked.ok) {
@@ -120,6 +122,13 @@ export function LiveAssistantPanel({ dispatch }: Props) {
     }
     const now = Date.now();
     if (event.kind === "comment") {
+      const commenter = (event.user?.trim().toLocaleLowerCase("pt-BR") || event.id).slice(0, 80);
+      if (!firstCommentersRef.current.has(commenter)) {
+        firstCommentersRef.current.add(commenter);
+        window.dispatchEvent(new CustomEvent("fio:tv-first-comment", {
+          detail: { user: event.user || "Visitante", text: event.text || "" },
+        }));
+      }
       if (now - lastCommentAt.current < 4500) return;
       lastCommentAt.current = now;
     }
@@ -152,6 +161,8 @@ export function LiveAssistantPanel({ dispatch }: Props) {
 
   const activateAudio = () => {
     voiceRef.current?.unlock();
+    window.dispatchEvent(new Event("fio:tv-enable-voice"));
+    window.speechSynthesis?.resume();
     unlockSfx();
     setAudioUnlocked(true);
     setVoiceStatus("Áudio ativado. O apresentador já pode falar.");
