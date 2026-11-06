@@ -116,6 +116,7 @@ export function LiveAssistantPanel({ dispatch }: Props) {
       return;
     }
     const event = checked.event;
+    window.dispatchEvent(new CustomEvent("fio:live-event", { detail: event }));
     if (event.source === "tiktok-live") {
       const detail = event.kind === "gift" ? event.giftName : event.kind;
       setLastLiveEvent(`Evento real recebido: ${detail ?? event.kind}${event.user ? ` · ${event.user}` : ""}`);
