@@ -41,7 +41,7 @@ export function mapTikfinity(msg: Raw, now = Date.now()): Record<string, unknown
       const name = str(d["giftName"]);
       const diamonds = num(d["diamondCount"]) ?? 1;
       const g = findGift(name, diamonds);
-      return { ...base, id: id("g"), kind: "gift", tier: g.tier, count: num(d["repeatCount"]) ?? 1, giftId: str(d["giftId"]) ?? (num(d["giftId"]) !== undefined ? String(num(d["giftId"])) : g.id), giftName: name?.slice(0, 60) ?? g.name };
+      return { ...base, id: id("g"), kind: "gift", tier: g.tier, count: num(d["repeatCount"]) ?? 1, giftId: str(d["giftId"]) ?? (num(d["giftId"]) !== undefined ? String(num(d["giftId"])) : g.id), giftName: name?.slice(0, 60) ?? g.name, diamonds };
     }
     default:
       return null;
