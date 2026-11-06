@@ -10,6 +10,9 @@ const REACTION_EXPRESSION: Record<ReactionKind, Expression> = {
   dance: "happy",
   detective: "neutral",
   suspicious: "neutral",
+  catbite: "surprised",
+  challenge: "happy",
+  profile: "neutral",
 };
 
 export function usePresenter() {
