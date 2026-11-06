@@ -126,7 +126,7 @@ export function LiveAssistantPanel({ dispatch }: Props) {
     let reaction: ReactionKind = event.kind === "comment" ? "detective" : event.kind === "likes" ? "like" : "follow";
     let label = event.kind === "comment" ? "O chat trouxe uma nova pista!" : event.kind === "likes" ? "O mural de pistas está brilhando!" : "Novo investigador no arquivo!";
     if (event.kind === "gift") {
-      const gift = findGift(event.giftName, 1);
+      const gift = findGift(event.giftName, event.diamonds ?? 1);
       reaction = EFFECT_REACTION[gift.effect];
       label = gift.fallback.replaceAll("{user}", event.user || "pessoal");
       if (gift.sfx) playSfx(gift.sfx);
@@ -197,6 +197,25 @@ export function LiveAssistantPanel({ dispatch }: Props) {
     processEvent(event);
   };
 
+  const investigateProfile = () => {
+    dispatch({ type: "reaction", kind: "profile", source: "demo", label: "Dossiê fictício aberto!" });
+    void speakAI("investigate", {
+      id: "demo-profile", kind: "comment", source: "demo", at: Date.now(),
+      user: "Detetive Curioso", text: "Investigue meu apelido",
+    });
+  };
+
+  const challengeChat = () => {
+    dispatch({ type: "reaction", kind: "challenge", source: "demo", label: "Desafio lançado!" });
+    void speakAI("challenge");
+  };
+
+  const surpriseCat = () => {
+    dispatch({ type: "reaction", kind: "catbite", source: "demo", label: "O gato atacou o apresentador!" });
+    playSfx("meow");
+    void speakAI("surprise", undefined, "O gato preto pulou na mesa, mordeu o apresentador e espalhou as pistas pelo estúdio.");
+  };
+
   const stopSpeech = () => {
     queueRef.current?.interrupt();
     setVoiceStatus("Fila de fala interrompida.");
@@ -244,8 +263,8 @@ export function LiveAssistantPanel({ dispatch }: Props) {
           <button className="cp-btn" onClick={() => void speakAI("topic")}>🎬 Abrir debate</button>
           <button className="cp-btn" onClick={() => void speakAI("question")}>❓ Perguntar ao chat</button>
           <button className="cp-btn" onClick={() => void speakAI("story")}>📚 Inventar história</button>
-          <button className="cp-btn" onClick={() => void speakAI("challenge")}>🏆 Criar desafio</button>
-          <button className="cp-btn" onClick={() => void speakAI("surprise", undefined, "O gato acabou de derrubar uma pilha de documentos no estúdio.")}>🐈 Surpresa do gato</button>
+          <button className="cp-btn" onClick={challengeChat}>🏆 Criar desafio</button>
+          <button className="cp-btn" onClick={surpriseCat}>🐈 Surpresa do gato</button>
         </div>
       </section>
 
@@ -259,9 +278,7 @@ export function LiveAssistantPanel({ dispatch }: Props) {
           <button className="cp-btn" onClick={() => demoEvent("gift", { giftName: "Galáxia", giftId: "galaxy", tier: "special" })}>🌌 Galáxia</button>
           <button className="cp-btn" onClick={() => demoEvent("gift", { giftName: "Leão", giftId: "lion", tier: "legendary" })}>🦁 Leão</button>
           <button className="cp-btn" onClick={() => demoEvent("gift", { giftName: "Pata de gato", giftId: "cat-paw" })}>🐈 Patinha</button>
-          <button className="cp-btn" onClick={() => void speakAI("investigate", {
-            id: "demo-profile", kind: "comment", source: "demo", at: Date.now(), user: "Detetive Curioso", text: "Investigue meu apelido",
-          })}>🕵️ Investigar apelido</button>
+          <button className="cp-btn" onClick={investigateProfile}>🕵️ Investigar apelido</button>
         </div>
       </section>
 
