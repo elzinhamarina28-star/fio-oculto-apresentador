@@ -20,6 +20,7 @@ export function SpriteRig({ state, onReactionDone }: PresenterRendererProps) {
         className="presenter-character"
         data-expression={state.expression}
         data-breathing={state.breathing}
+        data-reaction={state.reactions[state.reactions.length - 1]?.kind ?? ""}
       >
         <div className="presenter-torso-wrap">
           <img src={torso.url} alt="" className="presenter-torso" />
@@ -46,15 +47,15 @@ export function SpriteRig({ state, onReactionDone }: PresenterRendererProps) {
   );
 }
 
-const FX: Record<Reaction["kind"], { icon: string; label: string }> = {
-  like: { icon: "♥", label: "Curtida" },
-  follow: { icon: "✚", label: "Novo seguidor" },
-  gift: { icon: "✦", label: "Presente" },
-  wow: { icon: "💥", label: "QUE CHEGADA!" },
-  laugh: { icon: "😂", label: "EU NÃO AGUENTO!" },
-  dance: { icon: "🎉", label: "BORA COMEMORAR!" },
-  detective: { icon: "🔎", label: "TEMOS UMA PISTA!" },
-  suspicious: { icon: "🧐", label: "ESTOU DE OLHO..." },
+const FX: Record<Reaction["kind"], { icons: string[]; label: string }> = {
+  like: { icons: ["♥", "♡", "✦", "♥", "✧"], label: "Curtida recebida!" },
+  follow: { icons: ["👋", "✨", "🎈", "👋", "⭐"], label: "CHEGOU GENTE NOVA!" },
+  gift: { icons: ["🎁", "✨", "💎", "🎊", "⭐", "🎁"], label: "PRESENTE MISTERIOSO!" },
+  wow: { icons: ["💥", "‼️", "⚡", "💫", "💥"], label: "QUE CHEGADA É ESSA?!" },
+  laugh: { icons: ["😂", "🤣", "💧", "😂", "💨"], label: "PERDI A POSTURA!" },
+  dance: { icons: ["🪩", "🎉", "💃", "🕺", "✨", "🎊"], label: "ATIVANDO O MODO FESTA!" },
+  detective: { icons: ["🔎", "🕵️", "❓", "🗂️", "💡"], label: "PAUSA! TEMOS UMA PISTA!" },
+  suspicious: { icons: ["🧐", "👀", "🤨", "❗", "👁️"], label: "HUM... ISSO ESTÁ SUSPEITO!" },
 };
 
 function ReactionFx({ reaction, onDone }: { reaction: Reaction; onDone: (id: number) => void }) {
@@ -65,9 +66,9 @@ function ReactionFx({ reaction, onDone }: { reaction: Reaction; onDone: (id: num
   const fx = FX[reaction.kind];
   return (
     <div className={`fx fx-${reaction.kind}`}>
-      {Array.from({ length: reaction.kind === "gift" ? 10 : 6 }).map((_, i) => (
+      {Array.from({ length: fx.icons.length }).map((_, i) => (
         <span key={i} className="fx-particle" style={{ ["--i" as string]: i }}>
-          {fx.icon}
+          {fx.icons[i]}
         </span>
       ))}
       <span className="fx-label">
