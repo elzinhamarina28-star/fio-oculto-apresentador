@@ -739,3 +739,63 @@
   .live-hud-card small,.live-hud-card em,.live-hud-comments p { font-size:8px; line-height:1.25; }
   .live-hud-card > span { height:4px; }
 }
+
+
+/* ===== Stage composition: show the cat to the presenter's left and uncover the TV ===== */
+.studio-tv {
+  top: 34%;
+  right: 3%;
+  left: auto;
+  width: 23%;
+  z-index: 4;
+}
+.presenter-cat {
+  left: 14%;
+  bottom: 12%;
+  width: 22%;
+  max-width: 22%;
+  max-height: 22%;
+  height: auto;
+  object-fit: contain;
+  z-index: 3;
+  transform-origin: 50% 50%;
+  animation: fo-cat-recline 7s ease-in-out infinite;
+}
+@keyframes fo-cat-recline {
+  0%, 18%, 100% { transform: rotate(-88deg) translateY(0) scale(1); }
+  32%, 48% { transform: rotate(-108deg) translateY(-2%) scale(1.04); }
+  62%, 78% { transform: rotate(-82deg) translateY(1%) scale(1.02); }
+}
+.presenter-stage[data-reaction="catbite"] .presenter-cat {
+  animation: fo-cat-recline-bounce .9s ease-in-out 2;
+}
+@keyframes fo-cat-recline-bounce {
+  0%,100% { transform: rotate(-88deg) translateY(0); }
+  35%,65% { transform: rotate(-125deg) translateY(-10%) scale(1.08); }
+}
+.live-hud-comments {
+  left: auto;
+  right: 2.5%;
+  bottom: 3%;
+  width: 27%;
+}
+@media (max-width:640px) {
+  .studio-tv {
+    top: 35%;
+    right: 3%;
+    width: 22%;
+  }
+  .presenter-cat {
+    left: 13%;
+    bottom: 11%;
+    width: 22%;
+    max-width: 22%;
+    max-height: 22%;
+  }
+  .live-hud-comments {
+    left: auto;
+    right: 2%;
+    bottom: 2.5%;
+    width: 29%;
+  }
+}
