@@ -44,7 +44,7 @@ export function SpriteRig({ state, onReactionDone }: PresenterRendererProps) {
         </div>
       </div>
 
-      <img src={cat} alt="" className="presenter-cat" aria-hidden="true" />
+      <div className="presenter-cat-rest" aria-hidden="true"><span className="presenter-cat-shadow" /><img src={cat} alt="" className="presenter-cat" /></div>
       <div className="channel-glitch" aria-label="Canal Fio Oculto">FIO OCULTO</div>
       <img src={desk.url} alt="" className="presenter-desk" />
       <div className="presenter-fx">
