@@ -799,3 +799,110 @@
     width: 29%;
   }
 }
+
+
+/* ===== Composition correction: ground the cat and make the channel readable ===== */
+.presenter-cat-rest {
+  position:absolute;
+  z-index:5;
+  left:5%;
+  bottom:10.5%;
+  width:20%;
+  height:19%;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  pointer-events:none;
+}
+.presenter-cat-shadow {
+  position:absolute;
+  left:8%;
+  bottom:1%;
+  width:84%;
+  height:17%;
+  border-radius:50%;
+  background:rgba(0,0,0,.72);
+  filter:blur(7px);
+  box-shadow:0 3px 10px rgba(0,0,0,.65);
+}
+.presenter-cat-rest .presenter-cat {
+  position:relative;
+  left:auto;
+  bottom:auto;
+  width:100%;
+  height:100%;
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  object-position:center bottom;
+  z-index:1;
+  filter:drop-shadow(0 3px 3px rgba(0,0,0,.85));
+  transform-origin:50% 82%;
+  animation:fo-cat-natural-rest 8s ease-in-out infinite;
+}
+@keyframes fo-cat-natural-rest {
+  0%,22%,100% { transform:rotate(0) translateY(0) scale(1); }
+  36%,54% { transform:rotate(-7deg) translateY(-2%) scale(1.02); }
+  68%,82% { transform:rotate(5deg) translateY(0) scale(1); }
+}
+.presenter-stage[data-reaction="catbite"] .presenter-cat-rest .presenter-cat {
+  animation:fo-cat-play-bite .9s ease-in-out 2;
+}
+@keyframes fo-cat-play-bite {
+  0%,100% { transform:rotate(0) translateY(0); }
+  35%,65% { transform:rotate(-12deg) translateY(-7%) scale(1.05); }
+}
+.studio-tv {
+  top:34%;
+  right:5%;
+  width:22%;
+  z-index:7;
+}
+.studio-tv-idle {
+  background:linear-gradient(145deg,rgba(8,14,27,.96),rgba(20,8,24,.96));
+  opacity:1;
+  gap:5%;
+  text-align:center;
+  padding:5%;
+}
+.studio-tv-idle strong {
+  color:#ff354f;
+  font-size:clamp(7px,1.05vw,14px);
+  line-height:1.15;
+  letter-spacing:.07em;
+  text-shadow:0 0 8px rgba(255,25,55,.8);
+}
+.studio-tv-idle small {
+  color:#d9eaff;
+  font-size:clamp(5px,.68vw,9px);
+  font-weight:800;
+  letter-spacing:.1em;
+}
+.channel-glitch {
+  z-index:8;
+  top:4%;
+  left:50%;
+  padding:.35em .7em;
+  border:1px solid rgba(255,35,65,.65);
+  border-radius:999px;
+  background:rgba(12,7,15,.72);
+  box-shadow:0 0 14px rgba(255,0,45,.28);
+  text-shadow:2px 0 #00d5ff,-2px 0 #ff153d,0 0 9px #ff173e;
+  white-space:nowrap;
+}
+@media(max-width:640px) {
+  .presenter-cat-rest {
+    left:4%;
+    bottom:10%;
+    width:21%;
+    height:18%;
+  }
+  .studio-tv {
+    top:34%;
+    right:5%;
+    width:22%;
+  }
+  .studio-tv-idle strong { font-size:8px; }
+  .studio-tv-idle small { font-size:6px; }
+  .channel-glitch { top:3.5%; font-size:clamp(.72rem,2.3vw,1.15rem); }
+}
