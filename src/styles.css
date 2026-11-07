@@ -1180,3 +1180,56 @@
   .live-hud-actions span { font-size:11px !important; }
   .live-hud-actions small { font-size:5px !important; }
 }
+
+
+/* ===== Single-line goals and smaller typography ===== */
+.live-hud-goals {
+  top:3% !important;
+  right:2.5% !important;
+  width:23% !important;
+  display:flex !important;
+  flex-direction:column !important;
+  gap:4px !important;
+}
+.live-hud-goal-line {
+  display:flex !important;
+  flex-direction:row !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:5px !important;
+  white-space:nowrap !important;
+  padding:3px 6px !important;
+  min-height:0 !important;
+}
+.live-hud-goal-line span,
+.live-hud-goal-line b {
+  font-size:clamp(6px,.68vw,9px) !important;
+  line-height:1.1 !important;
+  font-weight:600 !important;
+}
+.live-hud-goal-line b { text-align:right !important; }
+.live-hud-likes strong,.live-hud-comments strong,
+.live-hud-card strong { font-size:clamp(6px,.66vw,9px) !important; }
+.live-hud-likes b,.live-hud-card b { font-size:clamp(8px,.78vw,10px) !important; }
+.live-hud-likes small,.live-hud-comments p,
+.live-hud-comments p span,.live-hud-comments p b { font-size:clamp(6px,.58vw,8px) !important; line-height:1.1 !important; }
+.live-hud-follow-alert strong { font-size:clamp(6px,.65vw,8px) !important; }
+.live-hud-follow-alert b { font-size:clamp(7px,.72vw,9px) !important; }
+.live-hud-follow-alert span { font-size:clamp(6px,.55vw,7px) !important; }
+.live-hud-brand strong { font-size:clamp(7px,.72vw,9px) !important; }
+.live-hud-actions span { font-size:clamp(9px,1vw,13px) !important; }
+.live-hud-actions small { font-size:clamp(5px,.5vw,7px) !important; }
+@media(max-width:640px) {
+  .live-hud-goals { width:25% !important; top:2.5% !important; right:2% !important; gap:3px !important; }
+  .live-hud-goal-line { padding:3px 4px !important; gap:3px !important; }
+  .live-hud-goal-line span,.live-hud-goal-line b { font-size:6px !important; }
+  .live-hud-likes strong,.live-hud-comments strong,.live-hud-card strong { font-size:6px !important; }
+  .live-hud-likes b,.live-hud-card b { font-size:8px !important; }
+  .live-hud-likes small,.live-hud-comments p,.live-hud-comments p span,.live-hud-comments p b { font-size:6px !important; }
+  .live-hud-follow-alert strong { font-size:6px !important; }
+  .live-hud-follow-alert b { font-size:7px !important; }
+  .live-hud-follow-alert span { font-size:6px !important; }
+  .live-hud-brand strong { font-size:7px !important; }
+  .live-hud-actions span { font-size:9px !important; }
+  .live-hud-actions small { font-size:5px !important; }
+}
