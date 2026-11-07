@@ -29,6 +29,11 @@ export function LiveHud() {
     window.addEventListener("fio:live-event", receive);
     return () => window.removeEventListener("fio:live-event", receive);
   }, []);
+  useEffect(() => {
+    if (!data.latestFollower) return;
+    const timer = window.setTimeout(() => setData((old) => ({ ...old, latestFollower: "" })), 6000);
+    return () => window.clearTimeout(timer);
+  }, [data.latestFollower]);
   const top = Object.entries(data.likers).sort((a,b) => b[1]-a[1]).slice(0,3);
   return <div className="live-hud" aria-live="polite">
     <div className="live-hud-brand"><span className="live-hud-eye">◉</span><strong>@FioOculto</strong><em>Desvende o inexplicável... juntos!</em></div>
