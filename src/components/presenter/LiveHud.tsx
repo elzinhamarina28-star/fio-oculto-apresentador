@@ -39,10 +39,9 @@ export function LiveHud() {
     <div className="live-hud-brand"><span className="live-hud-eye">◉</span><strong>@FioOculto</strong><em>Desvende o inexplicável... juntos!</em></div>
     <div className="live-hud-goals">
       <div className="live-hud-card live-hud-goal-line"><span>✦ Seguidores</span><b>{compact(data.followers)} / {compact(FOLLOWER_GOAL)}</b></div>
-      <div className="live-hud-card live-hud-goal-line"><span>🎁 Presentes</span><b>{compact(data.diamonds)} / {compact(GIFT_GOAL)} diamantes</b></div>
+      <div className="live-hud-card live-hud-goal-line"><span>🎁 Presentes</span><b>{compact(data.diamonds)} / {compact(GIFT_GOAL)}</b></div>
     </div>
     <div className="live-hud-likes live-hud-card"><strong>♥ Curtidas</strong><b>{compact(data.likes)}</b><small>{top.length ? top.map(([name,count])=>`${name} · ${compact(count)}`).join(" | ") : "Sem curtidas ainda"}</small></div>
-    <div className="live-hud-comments live-hud-card"><strong>💬 Chat</strong>{data.comments.length ? data.comments.map((c)=><p key={c.id}><b>{c.user || "Visitante"}</b><span>{c.text}</span></p>) : <p>Aguardando mensagens...</p>}</div>
     {data.latestFollower && <div className="live-hud-follow-alert"><strong>✦ Novo seguidor</strong><b>{data.latestFollower}</b><span>Bem-vindo!</span></div>}
     <div className="live-hud-actions"><span>☆<small>Seguir</small></span><span>♡<small>Curtir</small></span><span>♙<small>Presente</small></span><span>↗<small>Compartilhar</small></span></div>
   </div>;
