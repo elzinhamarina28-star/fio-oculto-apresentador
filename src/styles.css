@@ -717,3 +717,25 @@
   .live-hud-card > span { height:3px; }
   .live-hud-comments p { font-size:clamp(6px,.78vw,8px); }
 }
+
+
+/* Final mobile HUD pass: concise labels and wider cards for portrait previews */
+.presenter-character { left:34%; top:25%; width:32%; }
+.live-hud-goals { width:23%; }
+.live-hud-likes { width:23%; }
+.live-hud-comments { width:32%; }
+.live-hud-card { overflow:visible; overflow-wrap:anywhere; }
+.live-hud-card strong { font-size:clamp(7px, .95vw, 11px); }
+.live-hud-card small,.live-hud-card em { font-size:clamp(7px, .9vw, 10px); }
+.live-hud-comments p { overflow-wrap:anywhere; }
+@media (max-width:640px) {
+  .presenter-character { left:33%; top:25%; width:34%; }
+  .live-hud-goals { width:24%; top:2.5%; right:2%; }
+  .live-hud-likes { width:23%; top:2.5%; left:2%; }
+  .live-hud-comments { width:34%; left:2%; bottom:3%; }
+  .live-hud-card { padding:.3rem .38rem; gap:.18rem; }
+  .live-hud-card strong { font-size:9px; }
+  .live-hud-card b { font-size:11px; }
+  .live-hud-card small,.live-hud-card em,.live-hud-comments p { font-size:8px; line-height:1.25; }
+  .live-hud-card > span { height:4px; }
+}
