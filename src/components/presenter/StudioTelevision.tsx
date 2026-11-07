@@ -107,7 +107,7 @@ export function StudioTelevision() {
               </div>
             </div>
           ) : (
-            <div className="studio-tv-idle"><span>📺</span><small>CANAL FIO OCULTO</small></div>
+            <div className="studio-tv-idle"><span>📺</span><strong>CANAL FIO OCULTO</strong><small>SINAL EM SINTONIA</small></div>
           )}
         </div>
         <div className="studio-tv-controls"><i /><i /><i /></div>
