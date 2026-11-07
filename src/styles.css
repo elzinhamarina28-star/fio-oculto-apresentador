@@ -1264,3 +1264,7 @@
   .live-hud-goal-line span { font-size:6px !important; }
   .live-hud-goal-line b { font-size:7px !important; }
 }
+
+
+/* Remove decorative TikTok action labels/buttons from the broadcast overlay */
+.live-hud-actions { display:none !important; }
