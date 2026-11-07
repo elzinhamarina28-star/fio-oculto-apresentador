@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { hostSpeak } from "@/lib/host-ai.functions";
 import { topicForDate } from "@/lib/engine/daily-topic";
-import { findGift, type StageEffect } from "@/lib/engine/gifts";
+import { findGift, type SfxName } from "@/lib/engine/gifts";
 import { playSfx, unlockSfx } from "@/lib/engine/sfx";
 import { TikfinityProvider } from "@/lib/engine/tikfinity";
 import { validateEvent, type LiveEvent } from "@/lib/engine/events";
@@ -12,17 +12,6 @@ import type { Command, ReactionKind } from "@/lib/presenter/types";
 interface Props {
   dispatch: (command: Command) => void;
 }
-
-const EFFECT_REACTION: Record<StageEffect, ReactionKind> = {
-  confetti: "confetti",
-  hearts: "hearts",
-  stars: "stars",
-  rain: "rain",
-  spotlight: "spotlight",
-  "cat-bite": "catbite",
-  "cat-walk": "catwalk",
-  "clues-fall": "clues",
-};
 
 export function LiveAssistantPanel({ dispatch }: Props) {
   const topic = topicForDate();
@@ -40,7 +29,6 @@ export function LiveAssistantPanel({ dispatch }: Props) {
   const providerRef = useRef<TikfinityProvider | null>(null);
   const historyRef = useRef<string[]>([]);
   const lastCommentAt = useRef(0);
-  const lastLikeMilestone = useRef(0);
   const requestBusy = useRef(false);
   const processEventRef = useRef<(raw: unknown) => void>(() => {});
 
@@ -55,6 +43,24 @@ export function LiveAssistantPanel({ dispatch }: Props) {
     queueRef.current?.interrupt();
     void providerRef.current?.disconnect();
   }, []);
+
+  useEffect(() => {
+    const sound = (raw: Event) => {
+      if (audioUnlocked) playSfx((raw as CustomEvent<SfxName>).detail);
+    };
+    const finish = (raw: Event) => {
+      const { line, event } = (raw as CustomEvent<{ line: string; event: LiveEvent }>).detail;
+      setLastLine(line);
+      if (audioUnlocked && line.trim()) queueRef.current?.say(line, event.kind === "gift" ? 100 : 60);
+      else setVoiceStatus("Réaction concluída. Ative o áudio para ouvir as próximas falas.");
+    };
+    window.addEventListener("fio:cinematic-sound", sound);
+    window.addEventListener("fio:cinematic-finish", finish);
+    return () => {
+      window.removeEventListener("fio:cinematic-sound", sound);
+      window.removeEventListener("fio:cinematic-finish", finish);
+    };
+  }, [audioUnlocked]);
 
   const speakAI = useCallback(async (
     mode: "event" | "topic" | "story" | "question" | "challenge" | "investigate" | "surprise" | "free",
@@ -133,27 +139,13 @@ export function LiveAssistantPanel({ dispatch }: Props) {
       if (now - lastCommentAt.current < 4500) return;
       lastCommentAt.current = now;
     }
-    if (event.kind === "likes") {
-      const milestone = Math.floor((event.count ?? 0) / 100) * 100;
-      if (milestone < 100 || milestone <= lastLikeMilestone.current) return;
-      lastLikeMilestone.current = milestone;
-    }
-
-    let reaction: ReactionKind = event.kind === "comment" ? "detective" : event.kind === "likes" ? "like" : "follow";
-    let label = event.kind === "comment" ? "O chat trouxe uma nova pista!" : event.kind === "likes" ? "O mural de pistas está brilhando!" : "Novo investigador no arquivo!";
-    if (event.kind === "gift") {
-      const gift = findGift(event.giftName, event.diamonds ?? 1);
-      reaction = EFFECT_REACTION[gift.effect];
-      label = gift.fallback.replaceAll("{user}", event.user || "pessoal");
-      if (gift.sfx) playSfx(gift.sfx);
-      dispatch({ type: gift.animation === "shake" || gift.animation === "spin" ? "tilt" : "nod" });
-      dispatch({ type: "expression", value: gift.expression, durationMs: 2800 });
-    }
+    // Non-comment events are owned by the cinematic queue, including their closing voice.
+    if (event.kind !== "comment") return;
     dispatch({
       type: "reaction",
-      kind: reaction,
+      kind: "detective",
       source: event.source === "demo" ? "demo" : "live",
-      label,
+      label: "O chat trouxe uma nova pista!",
     });
     void speakAI("event", event);
   }, [dispatch, speakAI]);

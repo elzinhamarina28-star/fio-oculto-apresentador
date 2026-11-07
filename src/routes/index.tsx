@@ -4,6 +4,8 @@ import { ControlPanel } from "@/components/presenter/ControlPanel";
 import { MusicPanel } from "@/components/presenter/MusicPanel";
 import { LiveAssistantPanel } from "@/components/presenter/LiveAssistantPanel";
 import { usePresenter } from "@/lib/presenter/use-presenter";
+import { useCinematic } from "@/lib/presenter/use-cinematic";
+import { CinematicPanel } from "@/components/presenter/CinematicPanel";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -21,10 +23,12 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const { state, dispatch, toggle, removeReaction } = usePresenter();
+  const cinematic = useCinematic();
   return (
     <main className="presenter-page">
-      <SpriteRig state={state} onReactionDone={removeReaction} />
+      <SpriteRig state={state} onReactionDone={removeReaction} sequence={cinematic.active} />
       <div className="side-col">
+        <CinematicPanel controller={cinematic} />
         <ControlPanel state={state} dispatch={dispatch} toggle={toggle} />
         <LiveAssistantPanel dispatch={dispatch} />
         <MusicPanel />

@@ -9,9 +9,12 @@ import { StudioTelevision } from "./StudioTelevision";
 import { LiveHud } from "./LiveHud";
 import { onMouthLevel } from "@/lib/engine/voice-provider";
 import type { PresenterRendererProps, Reaction } from "@/lib/presenter/types";
+import { CinematicEffects } from "./CinematicEffects";
+import type { ActiveSequence } from "@/lib/presenter/use-cinematic";
+import type { CSSProperties } from "react";
 
 /** Lightweight layered presenter: CSS gestures, voice-driven mouth and the studio cat. */
-export function SpriteRig({ state, onReactionDone }: PresenterRendererProps) {
+export function SpriteRig({ state, onReactionDone, sequence }: PresenterRendererProps & { sequence?: ActiveSequence | null }) {
   const gesture = state.headGesture.kind;
   const latestReaction = state.reactions[state.reactions.length - 1];
   const headAnchorRef = useRef<HTMLDivElement>(null);
@@ -21,11 +24,18 @@ export function SpriteRig({ state, onReactionDone }: PresenterRendererProps) {
   }), []);
 
   return (
-    <div className="presenter-stage" data-reaction={latestReaction?.kind ?? "idle"}>
+    <div className="presenter-stage" data-reaction={latestReaction?.kind ?? "idle"}
+      data-cinematic={sequence?.profile.enabled ? sequence.profile.effect : "idle"}
+      data-motion={sequence?.profile.enabled && sequence.profile.character ? sequence.profile.motion : "idle"}
+      data-phase={sequence?.phase ?? "idle"}
+      data-dance={sequence?.job.variant ?? 0}
+      data-shy={sequence?.job.likeLevel ?? 1}
+      data-cat-action={sequence?.profile.enabled && sequence.profile.catEnabled ? sequence.profile.cat : "idle"}
+      style={{ "--cine-duration": `${sequence?.profile.duration ?? 6500}ms` } as CSSProperties}>
       <img src={studio.url} alt="Estúdio Fio Oculto" className="presenter-bg" />
       <StudioTelevision />
       <LiveHud />
-      <div className="presenter-character" data-expression={state.expression} data-breathing={state.breathing} data-reaction={latestReaction?.kind ?? "idle"}>
+      <div className="presenter-character" key={sequence?.job.id ?? "idle"} data-expression={state.expression} data-breathing={!sequence && state.breathing} data-reaction={latestReaction?.kind ?? "idle"}>
         <div className="presenter-torso-wrap"><img src={torso.url} alt="" className="presenter-torso" /></div>
         <div ref={headAnchorRef} className="presenter-head-anchor" data-idle={state.idleHead}>
           <div key={`g${state.headGesture.key}`} className="presenter-head" data-gesture={gesture ?? ""}>
@@ -44,9 +54,10 @@ export function SpriteRig({ state, onReactionDone }: PresenterRendererProps) {
         </div>
       </div>
 
-      <div className="presenter-cat-rest" aria-hidden="true"><span className="presenter-cat-shadow" /><img src={cat} alt="" className="presenter-cat" /></div>
+      <div className="presenter-cat-rest" key={`cat-${sequence?.job.id ?? "idle"}`} aria-hidden="true"><span className="presenter-cat-shadow" /><img src={cat} alt="" className="presenter-cat" /><span className="cine-cat-sleep">z Z z</span></div>
       <div className="channel-glitch" aria-label="Canal Fio Oculto">FIO OCULTO</div>
       <img src={desk.url} alt="" className="presenter-desk" />
+      {sequence && <CinematicEffects key={sequence.job.id} sequence={sequence} />}
       <div className="presenter-fx">
         {state.reactions.map((reaction) => (
           <ReactionFx key={reaction.id} reaction={reaction} onDone={onReactionDone} />

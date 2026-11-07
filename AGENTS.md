@@ -10,3 +10,5 @@
 <!-- LOVABLE:END -->
 
 - Presenter: renderers implement `PresenterRendererProps` (src/lib/presenter/types.ts) and are driven by `usePresenter` commands; swap SpriteRig for a rigged/Live2D renderer without changing the control panel. Reactions are manual-test only until a real live integration exists.
+- Cinematic events use one session-scoped serialized queue subscribed to validated `fio:live-event` messages; the existing assistant owns audio activation and closing speech to prevent duplicate effects and voice. Profiles and gift-ID associations remain session-only until persistence is explicitly implemented.
+- Preserve original layered artwork; cinematic motion transforms existing layers without synthesizing missing limbs. Gift IDs must come from operator/TikFinity input, never invented catalog IDs.
