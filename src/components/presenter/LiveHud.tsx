@@ -35,11 +35,11 @@ export function LiveHud() {
   const top = Object.entries(data.likers).sort((a,b) => b[1]-a[1]).slice(0,3);
   return <div className="live-hud" aria-live="polite">
     <div className="live-hud-goals">
-      <div className="live-hud-card"><strong>✦ Novos seguidores nesta LIVE</strong><b>{compact(data.followers)} / {compact(FOLLOWER_GOAL)}</b><span><i style={{width: `${Math.min(100,data.followers/FOLLOWER_GOAL*100)}%`}} /></span></div>
-      <div className="live-hud-card"><strong>🎁 Diamantes nesta LIVE</strong><b>{compact(data.diamonds)} / {compact(GIFT_GOAL)} diamantes</b><span><i style={{width: `${Math.min(100,data.diamonds/GIFT_GOAL*100)}%`}} /></span></div>
+      <div className="live-hud-card"><strong>✦ Seguidores</strong><b>{compact(data.followers)} / {compact(FOLLOWER_GOAL)}</b><span><i style={{width: `${Math.min(100,data.followers/FOLLOWER_GOAL*100)}%`}} /></span></div>
+      <div className="live-hud-card"><strong>🎁 Presentes</strong><b>{compact(data.diamonds)} / {compact(GIFT_GOAL)} diamantes</b><span><i style={{width: `${Math.min(100,data.diamonds/GIFT_GOAL*100)}%`}} /></span></div>
     </div>
     <div className="live-hud-bottom">
-      <div className="live-hud-card live-hud-likes"><strong>♥ Curtidas</strong><b>{compact(data.likes)}</b><small>Top 3 de quem mais curte</small>{top.length ? top.map(([name,count],i)=><em key={name}>{i+1}. {name} · {compact(count)}</em>) : <em>Aguardando curtidas...</em>}</div>
+      <div className="live-hud-card live-hud-likes"><strong>♥ Curtidas</strong><b>{compact(data.likes)}</b><small>Top 3 curtidas</small>{top.length ? top.map(([name,count],i)=><em key={name}>{i+1}. {name} · {compact(count)}</em>) : <em>Aguardando...</em>}</div>
       <div className="live-hud-card live-hud-comments"><strong>💬 Comentários</strong>{data.comments.length ? data.comments.map((c)=><p key={c.id}><b>{c.user || "Visitante"}:</b> {c.text}</p>) : <p>Aguardando mensagens do chat...</p>}</div>
     </div>
   </div>;
