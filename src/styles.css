@@ -1268,3 +1268,39 @@
 
 /* Remove decorative TikTok action labels/buttons from the broadcast overlay */
 .live-hud-actions { display:none !important; }
+
+
+/* Fix vertical clipping of the Followers and Gifts labels */
+.live-hud-goals {
+  width:32% !important;
+  overflow:visible !important;
+}
+.live-hud-goal-line {
+  min-height:24px !important;
+  height:auto !important;
+  padding:5px 7px !important;
+  overflow:visible !important;
+  align-items:center !important;
+  line-height:1.4 !important;
+}
+.live-hud-goal-line span {
+  flex:0 0 auto !important;
+  overflow:visible !important;
+  text-overflow:clip !important;
+  line-height:1.4 !important;
+  font-size:clamp(7px,.78vw,10px) !important;
+}
+.live-hud-goal-line b {
+  line-height:1.4 !important;
+  font-size:clamp(7px,.72vw,9px) !important;
+}
+@media(max-width:640px) {
+  .live-hud-goals { width:34% !important; }
+  .live-hud-goal-line {
+    min-height:22px !important;
+    padding:4px 5px !important;
+    gap:4px !important;
+  }
+  .live-hud-goal-line span { font-size:7px !important; line-height:1.4 !important; }
+  .live-hud-goal-line b { font-size:7px !important; line-height:1.4 !important; }
+}
