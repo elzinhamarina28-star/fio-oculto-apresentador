@@ -1119,3 +1119,64 @@
   .live-hud-actions span { font-size:11px !important; }
   .live-hud-actions small { font-size:5px !important; }
 }
+
+
+/* ===== Compact dark-glass HUD, positioned around the character ===== */
+.live-hud-card {
+  background:rgba(8,5,12,.78) !important;
+  border:1px solid rgba(255,48,78,.78) !important;
+  border-radius:8px !important;
+  box-shadow:0 2px 8px rgba(0,0,0,.45),0 0 7px rgba(255,0,45,.2) !important;
+  backdrop-filter:blur(3px) !important;
+  padding:4px 6px !important;
+  gap:2px !important;
+}
+.live-hud-goals { top:3%; right:2.5%; width:15% !important; gap:5px !important; }
+.live-hud-likes { top:3%; left:2.5%; width:14% !important; }
+.live-hud-comments { top:37%; left:2.5%; width:16% !important; max-height:27% !important; }
+.live-hud-card strong { font-size:clamp(7px,.75vw,10px) !important; line-height:1.15 !important; }
+.live-hud-card b { font-size:clamp(9px,.95vw,12px) !important; line-height:1.15 !important; }
+.live-hud-card small,.live-hud-comments p { font-size:clamp(6px,.65vw,8px) !important; line-height:1.15 !important; }
+.live-hud-comments p { padding:2px 0 !important; }
+.live-hud-follow-alert {
+  top:46% !important; right:3% !important; width:16% !important;
+  padding:5px 6px !important; border:1px solid rgba(255,48,78,.8) !important;
+  border-radius:8px !important; background:rgba(8,5,12,.82) !important;
+  box-shadow:0 2px 8px rgba(0,0,0,.4),0 0 8px rgba(255,0,45,.25) !important;
+}
+.live-hud-follow-alert strong { font-size:clamp(7px,.75vw,10px) !important; }
+.live-hud-follow-alert b { font-size:clamp(8px,.85vw,11px) !important; }
+.live-hud-follow-alert span { font-size:clamp(6px,.62vw,8px) !important; }
+.live-hud-brand {
+  left:1.5% !important; bottom:1.5% !important; width:auto !important; max-width:28%;
+  padding:3px 7px !important; gap:5px !important;
+  border:1px solid rgba(255,48,78,.8) !important; border-radius:8px !important;
+  background:rgba(8,5,12,.82) !important;
+  box-shadow:0 2px 8px rgba(0,0,0,.4) !important;
+}
+.live-hud-brand em { display:none !important; }
+.live-hud-eye { font-size:clamp(13px,1.6vw,20px) !important; }
+.live-hud-brand strong { font-size:clamp(8px,.85vw,11px) !important; }
+.live-hud-actions {
+  right:1.5% !important; bottom:1.5% !important; gap:clamp(7px,1.2vw,13px) !important;
+  padding:3px 7px !important; border:1px solid rgba(255,48,78,.8) !important;
+  border-radius:8px !important; background:rgba(8,5,12,.84) !important;
+  box-shadow:0 2px 8px rgba(0,0,0,.4) !important;
+}
+.live-hud-actions span { font-size:clamp(11px,1.35vw,17px) !important; }
+.live-hud-actions small { font-size:clamp(6px,.62vw,8px) !important; }
+@media(max-width:640px) {
+  .live-hud-goals { top:2.5% !important; right:2% !important; width:19% !important; gap:4px !important; }
+  .live-hud-likes { top:2.5% !important; left:2% !important; width:17% !important; }
+  .live-hud-comments { top:37% !important; left:2% !important; width:18% !important; max-height:25% !important; }
+  .live-hud-card { padding:3px 4px !important; border-radius:7px !important; }
+  .live-hud-card strong { font-size:7px !important; }
+  .live-hud-card b { font-size:9px !important; }
+  .live-hud-card small,.live-hud-comments p { font-size:6px !important; }
+  .live-hud-follow-alert { top:47% !important; right:2% !important; width:18% !important; padding:4px !important; }
+  .live-hud-brand { left:1% !important; bottom:1% !important; max-width:27%; padding:2px 4px !important; }
+  .live-hud-brand strong { font-size:7px !important; }
+  .live-hud-actions { right:1% !important; bottom:1% !important; gap:5px !important; padding:2px 4px !important; }
+  .live-hud-actions span { font-size:11px !important; }
+  .live-hud-actions small { font-size:5px !important; }
+}
