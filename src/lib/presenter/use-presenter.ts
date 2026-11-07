@@ -42,7 +42,7 @@ export function usePresenter() {
         const gesture = ["gift", "wow", "detective", "suspicious", "catbite", "confetti"].includes(cmd.kind) ? "tilt" : "nod";
         setState((s) => ({
           ...s,
-          reactions: [...s.reactions, { id, kind: cmd.kind, source: cmd.source ?? "manual-test", label: cmd.label }],
+           reactions: [...s.reactions, { id, kind: cmd.kind, source: cmd.source ?? "manual-test", ...(cmd.label === undefined ? {} : { label: cmd.label }) }],
           headGesture: { kind: gesture, key: s.headGesture.key + 1 },
         }));
         setExpression(REACTION_EXPRESSION[cmd.kind]);
