@@ -43,6 +43,5 @@ export function LiveHud() {
     </div>
     <div className="live-hud-likes live-hud-card"><strong>♥ Curtidas</strong><b>{compact(data.likes)}</b><small>{top.length ? top.map(([name,count])=>`${name} · ${compact(count)}`).join(" | ") : "Sem curtidas ainda"}</small></div>
     {data.latestFollower && <div className="live-hud-follow-alert"><strong>✦ Novo seguidor</strong><b>{data.latestFollower}</b><span>Bem-vindo!</span></div>}
-    <div className="live-hud-actions"><span>☆<small>Seguir</small></span><span>♡<small>Curtir</small></span><span>♙<small>Presente</small></span><span>↗<small>Compartilhar</small></span></div>
   </div>;
 }
