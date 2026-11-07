@@ -952,3 +952,106 @@
  .live-hud-brand { left:1%; bottom:1.5%; width:46%; gap:.35em; padding:.3em .45em; }
  .live-hud-actions { right:1%; bottom:1.5%; gap:clamp(6px,1.4vw,12px); padding:.3em .5em; }
 }
+
+
+/* ===== Final compact composition: reveal desk, shrink presenter and HUD ===== */
+.presenter-stage { position:relative; overflow:hidden; }
+.presenter-character {
+  left:39%;
+  top:29%;
+  width:20.5%;
+  z-index:1;
+}
+.presenter-torso-wrap { transform-origin:50% 100%; }
+.presenter-desk { z-index:2; }
+.presenter-cat-rest {
+  left:2.5%;
+  bottom:9%;
+  width:20%;
+  height:18%;
+  z-index:3;
+}
+.presenter-cat-rest .presenter-cat { width:100%; height:100%; object-fit:contain; }
+.studio-tv { top:35%; right:4%; width:21%; z-index:4; }
+.channel-glitch {
+  top:4%;
+  left:50%;
+  max-width:42%;
+  font-size:clamp(.65rem,1.7vw,1.25rem);
+  padding:.18em .4em;
+}
+.live-hud { inset:0; z-index:9; }
+.live-hud-card {
+  padding:3px 5px;
+  gap:2px;
+  border-width:1px;
+  border-radius:7px;
+  box-shadow:0 0 6px rgba(255,25,65,.22);
+}
+.live-hud-card strong { font-size:clamp(7px,.8vw,10px); line-height:1.1; }
+.live-hud-card b { font-size:clamp(9px,1vw,13px); line-height:1.1; }
+.live-hud-card small,.live-hud-comments p { font-size:clamp(7px,.72vw,9px); line-height:1.15; }
+.live-hud-goals { top:2.5%; right:2%; width:17%; gap:4px; }
+.live-hud-likes { top:2.5%; left:2%; width:16%; }
+.live-hud-comments {
+  top:31%;
+  left:2%;
+  right:auto;
+  bottom:auto;
+  width:17%;
+  max-height:38%;
+}
+.live-hud-comments p { padding:2px 0; }
+.live-hud-follow-alert {
+  top:43%;
+  right:3%;
+  width:18%;
+  padding:5px;
+  border-width:1px;
+  gap:3px;
+}
+.live-hud-follow-alert strong { font-size:clamp(8px,.9vw,11px); }
+.live-hud-follow-alert b { font-size:clamp(9px,1vw,13px); }
+.live-hud-follow-alert span { font-size:clamp(7px,.7vw,9px); }
+.live-hud-brand {
+  left:1.5%;
+  bottom:1.5%;
+  width:39%;
+  gap:5px;
+  padding:3px 6px;
+  border-width:1px;
+  border-radius:7px;
+}
+.live-hud-eye { font-size:clamp(13px,1.8vw,22px); }
+.live-hud-brand strong { font-size:clamp(8px,.9vw,11px); }
+.live-hud-brand em { font-size:clamp(7px,.8vw,10px); }
+.live-hud-actions {
+  right:1.5%;
+  bottom:1.5%;
+  gap:clamp(6px,1vw,12px);
+  padding:3px 7px;
+  border-width:1px;
+  border-radius:7px;
+}
+.live-hud-actions span { font-size:clamp(12px,1.5vw,19px); }
+.live-hud-actions small { font-size:clamp(6px,.65vw,8px); }
+@media(max-width:640px) {
+  .presenter-character { left:39%; top:29%; width:20.5%; }
+  .presenter-cat-rest { left:2%; bottom:9%; width:20%; height:17%; }
+  .studio-tv { top:36%; right:3%; width:20%; }
+  .channel-glitch { top:4%; left:50%; max-width:44%; font-size:clamp(.62rem,2vw,.9rem); }
+  .live-hud-goals { top:2%; right:2%; width:20%; gap:3px; }
+  .live-hud-likes { top:2%; left:2%; width:17%; }
+  .live-hud-comments { top:30%; left:2%; width:19%; max-height:37%; }
+  .live-hud-card { padding:3px 4px; gap:2px; border-radius:6px; }
+  .live-hud-card strong { font-size:8px; }
+  .live-hud-card b { font-size:10px; }
+  .live-hud-card small,.live-hud-comments p { font-size:7px; line-height:1.15; }
+  .live-hud-follow-alert { top:45%; right:2%; width:19%; padding:4px; }
+  .live-hud-brand { left:1%; bottom:1%; width:39%; gap:4px; padding:3px 4px; }
+  .live-hud-brand strong { font-size:8px; }
+  .live-hud-brand em { font-size:7px; }
+  .live-hud-actions { right:1%; bottom:1%; gap:6px; padding:3px 5px; }
+  .live-hud-actions span { font-size:13px; }
+  .live-hud-actions small { font-size:6px; }
+}
