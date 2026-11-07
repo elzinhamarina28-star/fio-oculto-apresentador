@@ -1055,3 +1055,67 @@
   .live-hud-actions span { font-size:13px; }
   .live-hud-actions small { font-size:6px; }
 }
+
+
+/* ===== Transparent, compact overlay cards ===== */
+.live-hud-card {
+  background:rgba(8,3,10,.12) !important;
+  border:1px solid rgba(255,55,82,.48) !important;
+  box-shadow:none !important;
+  border-radius:5px !important;
+  padding:2px 4px !important;
+  gap:1px !important;
+  backdrop-filter:none !important;
+}
+.live-hud-goals { width:14% !important; gap:3px !important; }
+.live-hud-likes { width:13% !important; }
+.live-hud-comments { width:14% !important; max-height:30% !important; }
+.live-hud-card strong { font-size:clamp(6px,.68vw,9px) !important; }
+.live-hud-card b { font-size:clamp(8px,.82vw,11px) !important; }
+.live-hud-card small,
+.live-hud-comments p { font-size:clamp(6px,.62vw,8px) !important; line-height:1.08 !important; }
+.live-hud-comments p { padding:1px 0 !important; border-bottom-color:rgba(255,65,85,.18) !important; }
+.live-hud-follow-alert {
+  width:15% !important;
+  padding:3px 4px !important;
+  border:1px solid rgba(255,48,78,.55) !important;
+  border-radius:6px !important;
+  background:rgba(8,3,10,.12) !important;
+  box-shadow:none !important;
+}
+.live-hud-follow-alert strong { font-size:clamp(7px,.72vw,9px) !important; }
+.live-hud-follow-alert b { font-size:clamp(8px,.8vw,10px) !important; }
+.live-hud-follow-alert span { font-size:clamp(6px,.6vw,8px) !important; }
+.live-hud-brand {
+  width:31% !important;
+  padding:2px 4px !important;
+  gap:4px !important;
+  border:1px solid rgba(255,48,78,.5) !important;
+  border-radius:5px !important;
+  background:rgba(7,4,10,.10) !important;
+  box-shadow:none !important;
+}
+.live-hud-brand em { display:none; }
+.live-hud-actions {
+  gap:7px !important;
+  padding:2px 5px !important;
+  border:1px solid rgba(255,48,78,.48) !important;
+  border-radius:5px !important;
+  background:rgba(7,4,10,.10) !important;
+  box-shadow:none !important;
+}
+.live-hud-actions span { font-size:clamp(10px,1.2vw,15px) !important; }
+.live-hud-actions small { font-size:clamp(5px,.55vw,7px) !important; }
+@media(max-width:640px) {
+  .live-hud-goals { width:17% !important; }
+  .live-hud-likes { width:15% !important; }
+  .live-hud-comments { width:17% !important; max-height:29% !important; }
+  .live-hud-card strong { font-size:7px !important; }
+  .live-hud-card b { font-size:9px !important; }
+  .live-hud-card small,.live-hud-comments p { font-size:6px !important; }
+  .live-hud-follow-alert { width:16% !important; }
+  .live-hud-brand { width:29% !important; }
+  .live-hud-actions { gap:5px !important; padding:2px 4px !important; }
+  .live-hud-actions span { font-size:11px !important; }
+  .live-hud-actions small { font-size:5px !important; }
+}
