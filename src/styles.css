@@ -1233,3 +1233,34 @@
   .live-hud-actions span { font-size:9px !important; }
   .live-hud-actions small { font-size:5px !important; }
 }
+
+
+/* ===== Hide on-screen chat and prevent gift counter clipping ===== */
+.live-hud-comments { display:none !important; }
+.live-hud-goals { width:27% !important; }
+.live-hud-goal-line {
+  width:100% !important;
+  min-width:0 !important;
+  box-sizing:border-box !important;
+  overflow:hidden !important;
+  white-space:nowrap !important;
+}
+.live-hud-goal-line span {
+  flex:0 1 auto !important;
+  min-width:0 !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+}
+.live-hud-goal-line b {
+  flex:0 0 auto !important;
+  min-width:0 !important;
+  white-space:nowrap !important;
+  font-size:clamp(6px,.62vw,8px) !important;
+  letter-spacing:-.02em !important;
+}
+@media(max-width:640px) {
+  .live-hud-goals { width:29% !important; }
+  .live-hud-goal-line { padding:3px 4px !important; gap:3px !important; }
+  .live-hud-goal-line span { font-size:6px !important; }
+  .live-hud-goal-line b { font-size:7px !important; }
+}
