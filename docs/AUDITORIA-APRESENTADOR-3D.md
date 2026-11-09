@@ -49,3 +49,17 @@ Quando aprovado tecnicamente, armazenar o binário pelo fluxo de assets, manter 
 - Os demais exemplos humanoides Khronos pesquisados possuem licenças diferentes de CC0 ou são demonstrações abstratas, não apresentadores completos.
 
 **Bloqueio externo da etapa 1:** nenhum arquivo gratuito inspecionado reúne o contrato completo. É necessário obter um pacote gratuito acessível com licença específica e os recursos exigidos. Enviar um pacote candidato permite inspeção, mas não garante sua compatibilidade. As etapas de renderização, gato, integração e saída OBS permanecem pendentes; não foram simuladas como concluídas.
+## Comparação de candidatos — 9 de novembro de 2026
+
+Arquivos baixados e inspecionados (cabeçalho glTF, skins, juntas, clips, morph targets e metadados). Nenhum foi integrado.
+
+| | Seed-san (VRM 1.0) | Xbot (three.js) | RobotExpressive (three.js) |
+|---|---|---|---|
+| Formato | `.vrm` (GLB + VRMC_vrm), 10,9 MB | `.glb`, 2,9 MB | `.glb`, 0,46 MB |
+| Ossos | 80 no corpo + cabelo/acessórios: quadril, coluna, peito, pescoço, cabeça, ombros, braços, antebraços (twist), mãos, 5 dedos x 3 falanges, coxas, canelas, pés, dedos dos pés | 67, padrão Mixamo, com 5 dedos x 4 e olhos | 43, sem dedo mínimo; corpo rígido, só mãos com skinning |
+| Animações | Nenhuma no arquivo (exige clips externos/retarget) | idle, walk, run, agree, headShake, sad_pose, sneak_pose | Dance, Idle, Walking, Running, Sitting, Standing, Wave, Yes, No, ThumbsUp, Jump, Punch, Death, WalkJump |
+| Expressões | 43 morphs; presets VRM: blink (L/R), happy, angry, sad, relaxed, surprised, visemas aa/ih/ou/ee/oh, olhar 4 direções | Nenhuma | Angry, Surprised, Sad |
+| Three.js/R3F | Sim, via `@pixiv/three-vrm` | Sim, GLTFLoader nativo | Sim, GLTFLoader nativo |
+| Licença | VRM Public License 1.0: redistribuição, modificação e uso comercial permitidos; **crédito obrigatório** ("Seed-san model by VirtualCast, Inc.") | Origem Mixamo/Adobe; repositório three.js não declara licença específica para redistribuição — **não confirmada** | CC0 1.0 |
+
+**Recomendação:** Seed-san. É o único humanoide completo com dedos, visemas para a boca, piscadas e expressões, e licença que permite servir no app. Falta: clips de caminhar, sentar, levantar e dançar — precisam vir de uma biblioteca de animação com licença compatível (ex.: arquivos VRMA ou Quaternius Universal Animation Library, a verificar antes de usar). Aparência: robô/menina estilizada; a roupa e cores podem ser modificadas (licença permite).
