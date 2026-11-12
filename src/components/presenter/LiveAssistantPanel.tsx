@@ -4,7 +4,7 @@ import { topicForDate } from "@/lib/engine/daily-topic";
 import { findGift, type SfxName } from "@/lib/engine/gifts";
 import { playSfx, unlockSfx } from "@/lib/engine/sfx";
 import { TikfinityProvider } from "@/lib/engine/tikfinity";
-import { validateEvent, type LiveEvent } from "@/lib/engine/events";
+import { priorityOf, validateEvent, type LiveEvent } from "@/lib/engine/events";
 import { ElevenLabsVoice } from "@/lib/engine/voice-provider";
 import { SpeechQueue, type SpeechState } from "@/lib/engine/speech-engine";
 import type { Command, ReactionKind } from "@/lib/presenter/types";
@@ -31,6 +31,8 @@ export function LiveAssistantPanel({ dispatch }: Props) {
   const lastCommentAt = useRef(0);
   const requestBusy = useRef(false);
   const processEventRef = useRef<(raw: unknown) => void>(() => {});
+  const speakAIRef = useRef<((mode: "event" | "topic" | "story" | "question" | "challenge" | "investigate" | "surprise" | "free", event?: LiveEvent, prompt?: string) => Promise<void>) | null>(null);
+  const pendingAiEventsRef = useRef<LiveEvent[]>([]);
 
   if (!voiceRef.current) {
     const voice = new ElevenLabsVoice();
@@ -51,8 +53,12 @@ export function LiveAssistantPanel({ dispatch }: Props) {
     const finish = (raw: Event) => {
       const { line, event } = (raw as CustomEvent<{ line: string; event: LiveEvent }>).detail;
       setLastLine(line);
-      if (audioUnlocked && line.trim()) queueRef.current?.say(line, event.kind === "gift" ? 100 : 60);
-      else setVoiceStatus("Réaction concluída. Ative o áudio para ouvir as próximas falas.");
+      if (audioUnlocked && line.trim()) {
+        // Cinematic effects own the visuals; all event speech goes through the shared AI voice path.
+        void speakAIRef.current?.("event", event);
+      } else {
+        setVoiceStatus("Reação concluída. Ative o áudio para ouvir as próximas falas.");
+      }
     };
     window.addEventListener("fio:cinematic-sound", sound);
     window.addEventListener("fio:cinematic-finish", finish);
@@ -68,7 +74,14 @@ export function LiveAssistantPanel({ dispatch }: Props) {
     prompt?: string,
   ) => {
     if (requestBusy.current) {
-      setVoiceStatus("O apresentador está terminando uma resposta; esta fala ficou para a próxima rodada.");
+      if (mode === "event" && event) {
+        pendingAiEventsRef.current.push(event);
+        pendingAiEventsRef.current.sort((a, b) => priorityOf(b) - priorityOf(a));
+        if (pendingAiEventsRef.current.length > 30) pendingAiEventsRef.current.length = 30;
+        setVoiceStatus("Evento recebido e aguardando a vez na fila de conversa.");
+      } else {
+        setVoiceStatus("O apresentador está terminando uma resposta; esta fala ficou para a próxima rodada.");
+      }
       return;
     }
     requestBusy.current = true;
@@ -110,8 +123,12 @@ export function LiveAssistantPanel({ dispatch }: Props) {
     } finally {
       requestBusy.current = false;
       setBusy(false);
+      const nextEvent = pendingAiEventsRef.current.shift();
+      if (nextEvent) void speakAIRef.current?.("event", nextEvent);
     }
   }, [audioUnlocked, topic.title]);
+
+  speakAIRef.current = speakAI;
 
   const firstCommentersRef = useRef(new Set<string>());
 
