@@ -61,10 +61,10 @@ export function SkeletalRig({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const vrmRef = useRef<VrmLike | null>(null);
   const mouthRef = useRef(0);
-  const blinkRef = useRef(blinkKey);
+  const expressionRef = useRef(expression);
+  expressionRef.current = expression;
 
   useEffect(() => {
-    blinkRef.current = blinkKey;
     const manager = vrmRef.current?.expressionManager;
     if (!manager) return;
     manager.setValue("blink", 1);
@@ -141,8 +141,8 @@ export function SkeletalRig({
         vrm.scene.traverse((node) => { node.frustumCulled = false; });
         scene.add(vrm.scene);
         vrmRef.current = vrm;
-        vrm.expressionManager?.setValue("happy", expression === "happy" ? 1 : 0);
-        vrm.expressionManager?.setValue("surprised", expression === "surprised" ? 1 : 0);
+        vrm.expressionManager?.setValue("happy", expressionRef.current === "happy" ? 1 : 0);
+        vrm.expressionManager?.setValue("surprised", expressionRef.current === "surprised" ? 1 : 0);
         vrm.expressionManager?.setValue("aa", mouthRef.current);
         onReady();
 
@@ -171,7 +171,7 @@ export function SkeletalRig({
       vrmRef.current = null;
       renderer?.dispose();
     };
-  }, [onReady, expression]);
+  }, [onReady]);
 
   return (
     <div className="seed-san-layer" aria-label="Apresentador 3D Seed-san">
