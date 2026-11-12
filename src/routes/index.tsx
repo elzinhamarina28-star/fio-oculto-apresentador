@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { SpriteRig } from "@/components/presenter/SpriteRig";
 import { ControlPanel } from "@/components/presenter/ControlPanel";
@@ -23,11 +24,15 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const { state, dispatch, toggle, removeReaction } = usePresenter();
+  const [useVrm, setUseVrm] = useState(true);
   const cinematic = useCinematic();
   return (
     <main className="presenter-page">
-      <SpriteRig state={state} onReactionDone={removeReaction} sequence={cinematic.active} />
+      <SpriteRig state={state} onReactionDone={removeReaction} sequence={cinematic.active} useVrm={useVrm} />
       <div className="side-col">
+        <button type="button" className="cp-btn seed-san-toggle" data-on={useVrm} onClick={() => setUseVrm((current) => !current)}>
+          {useVrm ? "Voltar ao apresentador antigo" : "Experimentar Seed-san 3D"}
+        </button>
         <CinematicPanel controller={cinematic} />
         <ControlPanel state={state} dispatch={dispatch} toggle={toggle} />
         <LiveAssistantPanel dispatch={dispatch} />
