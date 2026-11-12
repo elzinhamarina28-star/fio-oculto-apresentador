@@ -28,7 +28,7 @@ type ThreeApi = {
   DirectionalLight: new (color: number, intensity: number) => { position: Vector3Like };
   Clock: new () => ClockLike;
 };
-type HumanoidBone = { rotation: { z: number } };
+type HumanoidBone = { rotation: { x: number; y: number; z: number } };
 type VrmLike = {
   humanoid?: { getNormalizedBoneNode: (name: string) => HumanoidBone | null };
   scene: {
@@ -139,18 +139,30 @@ export function SkeletalRig({
         const vrm = gltf.userData.vrm;
         if (!vrm) throw new Error("O arquivo carregou, mas não contém um personagem VRM válido.");
 
-        vrm.scene.position.set(0, 0, 0);
-        vrm.scene.scale.set(0.9, 0.9, 0.9);
+        // Seat the avatar at the desk-side position used by the original presenter.
+        vrm.scene.position.set(0, -0.18, 0);
+        vrm.scene.scale.set(0.78, 0.78, 0.78);
 
         // Relax the sample model's default T-pose into a neutral presenter stance.
         const leftUpperArm = vrm.humanoid?.getNormalizedBoneNode("leftUpperArm");
         const rightUpperArm = vrm.humanoid?.getNormalizedBoneNode("rightUpperArm");
         const leftLowerArm = vrm.humanoid?.getNormalizedBoneNode("leftLowerArm");
         const rightLowerArm = vrm.humanoid?.getNormalizedBoneNode("rightLowerArm");
-        if (leftUpperArm) leftUpperArm.rotation.z = -1.15;
-        if (rightUpperArm) rightUpperArm.rotation.z = 1.15;
-        if (leftLowerArm) leftLowerArm.rotation.z = -0.12;
-        if (rightLowerArm) rightLowerArm.rotation.z = 0.12;
+        if (leftUpperArm) { leftUpperArm.rotation.z = -0.42; leftUpperArm.rotation.x = -0.12; }
+        if (rightUpperArm) { rightUpperArm.rotation.z = 0.42; rightUpperArm.rotation.x = -0.12; }
+        if (leftLowerArm) { leftLowerArm.rotation.z = -0.12; leftLowerArm.rotation.x = -0.18; }
+        if (rightLowerArm) { rightLowerArm.rotation.z = 0.12; rightLowerArm.rotation.x = -0.18; }
+
+        const leftUpperLeg = vrm.humanoid?.getNormalizedBoneNode("leftUpperLeg");
+        const rightUpperLeg = vrm.humanoid?.getNormalizedBoneNode("rightUpperLeg");
+        const leftLowerLeg = vrm.humanoid?.getNormalizedBoneNode("leftLowerLeg");
+        const rightLowerLeg = vrm.humanoid?.getNormalizedBoneNode("rightLowerLeg");
+        const spine = vrm.humanoid?.getNormalizedBoneNode("spine");
+        const head = vrm.humanoid?.getNormalizedBoneNode("head");
+        if (leftUpperLeg) leftUpperLeg.rotation.x = -1.18;
+        if (rightUpperLeg) rightUpperLeg.rotation.x = -1.18;
+        if (leftLowerLeg) leftLowerLeg.rotation.x = 1.35;
+        if (rightLowerLeg) rightLowerLeg.rotation.x = 1.35;
         vrm.scene.traverse((node) => { node.frustumCulled = false; });
         scene.add(vrm.scene);
         vrmRef.current = vrm;
@@ -160,9 +172,19 @@ export function SkeletalRig({
         onReady();
 
         const clock = new three.Clock();
+        let elapsed = 0;
         const animate = () => {
           if (disposed || !renderer) return;
           const delta = Math.min(clock.getDelta(), 0.05);
+          elapsed += delta;
+          if (spine) spine.rotation.x = Math.sin(elapsed * 1.35) * 0.018;
+          if (head) {
+            head.rotation.y = Math.sin(elapsed * 0.72) * 0.055;
+            head.rotation.z = Math.sin(elapsed * 0.48) * 0.018;
+          }
+          const speechGesture = mouthRef.current > 0.08 ? Math.sin(elapsed * 7.5) * 0.12 : 0;
+          if (rightUpperArm) rightUpperArm.rotation.x = -0.12 + speechGesture;
+          if (leftUpperArm) leftUpperArm.rotation.x = -0.12 - speechGesture * 0.35;
           vrm.update(delta);
           renderer.render(scene, camera);
           frame = window.requestAnimationFrame(animate);
