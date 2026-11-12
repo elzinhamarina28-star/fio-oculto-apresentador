@@ -1445,10 +1445,10 @@
 /* Seed-san VRM preview — legacy sprite remains available as fallback. */
 .seed-san-layer {
   position: absolute;
-  left: 22%;
-  top: 0;
-  width: 36%;
-  height: 100%;
+  left: 29.5%;
+  top: 28%;
+  width: 22.5%;
+  height: 72%;
   z-index: 4;
   pointer-events: none;
 }
@@ -1500,6 +1500,6 @@
   border-color: var(--fo-gold);
 }
 @media (max-width: 640px) {
-  .seed-san-layer { left: 20%; width: 40%; }
-  .seed-san-credit { bottom: 18%; font-size: 5px; }
+  .seed-san-layer { left: 29.5%; top: 28%; width: 22.5%; height: 72%; }
+  .seed-san-credit { bottom: 2%; font-size: 5px; }
 }
