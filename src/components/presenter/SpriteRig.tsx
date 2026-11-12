@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import studio from "@/assets/presenter/studio.jpg.asset.json";
 import desk from "@/assets/presenter/desk.png.asset.json";
@@ -10,12 +10,16 @@ import { LiveHud } from "./LiveHud";
 import { onMouthLevel } from "@/lib/engine/voice-provider";
 import type { PresenterRendererProps, Reaction } from "@/lib/presenter/types";
 import { CinematicEffects } from "./CinematicEffects";
+import { SkeletalRig } from "./SkeletalRig";
 import type { ActiveSequence } from "@/lib/presenter/use-cinematic";
 import type { CSSProperties } from "react";
 
 /** Lightweight layered presenter: CSS gestures, voice-driven mouth and the studio cat. */
-export function SpriteRig({ state, onReactionDone, sequence }: PresenterRendererProps & { sequence?: ActiveSequence | null }) {
+export function SpriteRig({ state, onReactionDone, sequence, useVrm = false }: PresenterRendererProps & { sequence?: ActiveSequence | null; useVrm?: boolean }) {
   const gesture = state.headGesture.kind;
+  const [vrmReady, setVrmReady] = useState(false);
+  const handleVrmReady = useCallback(() => setVrmReady(true), []);
+  useEffect(() => { if (!useVrm) setVrmReady(false); }, [useVrm]);
   const latestReaction = state.reactions[state.reactions.length - 1];
   const headAnchorRef = useRef<HTMLDivElement>(null);
 
@@ -24,7 +28,7 @@ export function SpriteRig({ state, onReactionDone, sequence }: PresenterRenderer
   }), []);
 
   return (
-    <div className="presenter-stage" data-reaction={latestReaction?.kind ?? "idle"}
+    <div className="presenter-stage" data-vrm-ready={useVrm && vrmReady} data-reaction={latestReaction?.kind ?? "idle"}
       data-cinematic={sequence?.profile.enabled ? sequence.profile.effect : "idle"}
       data-motion={sequence?.profile.enabled && sequence.profile.character ? sequence.profile.motion : "idle"}
       data-phase={sequence?.phase ?? "idle"}
@@ -35,6 +39,7 @@ export function SpriteRig({ state, onReactionDone, sequence }: PresenterRenderer
       <img src={studio.url} alt="Estúdio Fio Oculto" className="presenter-bg" />
       <StudioTelevision />
       <LiveHud />
+      {useVrm && <SkeletalRig expression={state.expression} blinkKey={state.blinkKey} onReady={handleVrmReady} />}
       <div className="presenter-character" key={sequence?.job.id ?? "idle"} data-expression={state.expression} data-breathing={!sequence && state.breathing} data-reaction={latestReaction?.kind ?? "idle"}>
         <div className="presenter-torso-wrap"><img src={torso.url} alt="" className="presenter-torso" /></div>
         <div ref={headAnchorRef} className="presenter-head-anchor" data-idle={state.idleHead}>
