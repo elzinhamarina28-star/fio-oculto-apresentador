@@ -51,8 +51,12 @@ export function LiveAssistantPanel({ dispatch }: Props) {
     const finish = (raw: Event) => {
       const { line, event } = (raw as CustomEvent<{ line: string; event: LiveEvent }>).detail;
       setLastLine(line);
-      if (audioUnlocked && line.trim()) queueRef.current?.say(line, event.kind === "gift" ? 100 : 60);
-      else setVoiceStatus("Réaction concluída. Ative o áudio para ouvir as próximas falas.");
+      if (audioUnlocked && line.trim()) {
+        // Cinematic effects own the visuals; all event speech goes through the shared AI voice path.
+        void speakAIRef.current?.("event", event);
+      } else {
+        setVoiceStatus("Reação concluída. Ative o áudio para ouvir as próximas falas.");
+      }
     };
     window.addEventListener("fio:cinematic-sound", sound);
     window.addEventListener("fio:cinematic-finish", finish);
