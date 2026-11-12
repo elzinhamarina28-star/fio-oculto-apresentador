@@ -159,8 +159,10 @@ export function SkeletalRig({
       } catch (error) {
         if (!disposed) {
           console.error("[Fio Oculto] Não foi possível carregar o Seed-san:", error);
+          const message = error instanceof Error ? error.message : String(error);
           canvas.dataset.loadError = "true";
           canvas.parentElement?.setAttribute("data-load-error", "true");
+          canvas.parentElement?.setAttribute("data-load-message", message.slice(0, 180));
         }
       }
     };
