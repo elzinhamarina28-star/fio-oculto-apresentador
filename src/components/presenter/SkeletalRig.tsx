@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { onMouthLevel } from "@/lib/engine/voice-provider";
 
 const MODEL_URL =
-  "https://cdn.jsdelivr.net/gh/vrm-c/vrm-specification@d8d08d785e68a5db7318ae9caa8837e7ae02aaed/samples/Seed-san/vrm/Seed-san.vrm";
+  "https://media.githubusercontent.com/media/vrm-c/vrm-specification/d8d08d785e68a5db7318ae9caa8837e7ae02aaed/samples/Seed-san/vrm/Seed-san.vrm";
 
 type Vector3Like = { set: (x: number, y: number, z: number) => void };
 type CameraLike = {
