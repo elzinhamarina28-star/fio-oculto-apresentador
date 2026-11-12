@@ -1440,3 +1440,66 @@
   .cinematic-layer .cine-particle { opacity:.45; top:25%; }
   .cinematic-layer .cine-light { opacity:.08; }
 }
+
+
+/* Seed-san VRM preview — legacy sprite remains available as fallback. */
+.seed-san-layer {
+  position: absolute;
+  left: 22%;
+  top: 0;
+  width: 36%;
+  height: 100%;
+  z-index: 4;
+  pointer-events: none;
+}
+.seed-san-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.presenter-stage[data-vrm-ready="true"] .presenter-character {
+  opacity: 0;
+  visibility: hidden;
+}
+.seed-san-credit {
+  position: absolute;
+  left: 50%;
+  bottom: 19%;
+  transform: translateX(-50%);
+  padding: .18rem .35rem;
+  border-radius: .25rem;
+  background: oklch(.12 .02 20 / .72);
+  color: oklch(.95 .01 80 / .72);
+  font-size: clamp(5px, .55vw, 8px);
+  white-space: nowrap;
+  opacity: .72;
+}
+.seed-san-layer[data-load-error="true"]::after {
+  content: "Seed-san não carregou · apresentador antigo mantido";
+  position: absolute;
+  left: 50%;
+  top: 8%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 90%;
+  padding: .35rem .55rem;
+  border: 1px solid var(--fo-red);
+  border-radius: .35rem;
+  background: var(--fo-panel);
+  color: var(--fo-paper);
+  font-size: clamp(8px, 1vw, 12px);
+  text-align: center;
+}
+.seed-san-toggle {
+  width: 100%;
+  border-color: var(--fo-gold);
+  color: var(--fo-paper);
+}
+.seed-san-toggle[data-on="true"] {
+  background: oklch(.72 .14 80 / .2);
+  border-color: var(--fo-gold);
+}
+@media (max-width: 640px) {
+  .seed-san-layer { left: 20%; width: 40%; }
+  .seed-san-credit { bottom: 18%; font-size: 5px; }
+}
