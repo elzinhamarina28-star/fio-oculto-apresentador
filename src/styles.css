@@ -1464,7 +1464,7 @@
 .seed-san-credit {
   position: absolute;
   left: 50%;
-  bottom: 19%;
+  bottom: 2%;
   transform: translateX(-50%);
   padding: .18rem .35rem;
   border-radius: .25rem;
@@ -1472,7 +1472,7 @@
   color: oklch(.95 .01 80 / .72);
   font-size: clamp(5px, .55vw, 8px);
   white-space: nowrap;
-  opacity: .72;
+  opacity: .55;
 }
 .seed-san-layer[data-load-error="true"]::after {
   content: "Seed-san não carregou: " attr(data-load-message) " · apresentador antigo mantido";

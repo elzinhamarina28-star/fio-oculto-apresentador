@@ -28,7 +28,9 @@ type ThreeApi = {
   DirectionalLight: new (color: number, intensity: number) => { position: Vector3Like };
   Clock: new () => ClockLike;
 };
+type HumanoidBone = { rotation: { z: number } };
 type VrmLike = {
+  humanoid?: { getNormalizedBoneNode: (name: string) => HumanoidBone | null };
   scene: {
     position: Vector3Like;
     scale: Vector3Like;
@@ -138,7 +140,17 @@ export function SkeletalRig({
         if (!vrm) throw new Error("O arquivo carregou, mas não contém um personagem VRM válido.");
 
         vrm.scene.position.set(0, 0, 0);
-        vrm.scene.scale.set(1, 1, 1);
+        vrm.scene.scale.set(0.9, 0.9, 0.9);
+
+        // Relax the sample model's default T-pose into a neutral presenter stance.
+        const leftUpperArm = vrm.humanoid?.getNormalizedBoneNode("leftUpperArm");
+        const rightUpperArm = vrm.humanoid?.getNormalizedBoneNode("rightUpperArm");
+        const leftLowerArm = vrm.humanoid?.getNormalizedBoneNode("leftLowerArm");
+        const rightLowerArm = vrm.humanoid?.getNormalizedBoneNode("rightLowerArm");
+        if (leftUpperArm) leftUpperArm.rotation.z = -1.15;
+        if (rightUpperArm) rightUpperArm.rotation.z = 1.15;
+        if (leftLowerArm) leftLowerArm.rotation.z = -0.12;
+        if (rightLowerArm) rightLowerArm.rotation.z = 0.12;
         vrm.scene.traverse((node) => { node.frustumCulled = false; });
         scene.add(vrm.scene);
         vrmRef.current = vrm;
