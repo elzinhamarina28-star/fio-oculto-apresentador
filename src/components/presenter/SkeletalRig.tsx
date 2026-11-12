@@ -7,6 +7,7 @@ const MODEL_URL =
 type Vector3Like = { set: (x: number, y: number, z: number) => void };
 type CameraLike = {
   position: Vector3Like;
+  aspect: number;
   lookAt: (x: number, y: number, z: number) => void;
   updateProjectionMatrix: () => void;
 };
@@ -23,7 +24,6 @@ type ThreeApi = {
   Scene: new () => SceneLike;
   PerspectiveCamera: new (fov: number, aspect: number, near: number, far: number) => CameraLike;
   WebGLRenderer: new (options: { canvas: HTMLCanvasElement; alpha: boolean; antialias: boolean }) => RendererLike;
-  Color: new (color: string) => unknown;
   AmbientLight: new (color: number, intensity: number) => unknown;
   DirectionalLight: new (color: number, intensity: number) => { position: Vector3Like };
   Clock: new () => ClockLike;
@@ -114,6 +114,7 @@ export function SkeletalRig({
         const resize = () => {
           const width = Math.max(1, host.clientWidth);
           const height = Math.max(1, host.clientHeight);
+          camera.aspect = width / height;
           camera.updateProjectionMatrix();
           renderer?.setSize(width, height);
         };
