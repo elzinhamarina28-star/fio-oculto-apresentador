@@ -1475,7 +1475,7 @@
   opacity: .72;
 }
 .seed-san-layer[data-load-error="true"]::after {
-  content: "Seed-san não carregou · apresentador antigo mantido";
+  content: "Seed-san não carregou: " attr(data-load-message) " · apresentador antigo mantido";
   position: absolute;
   left: 50%;
   top: 8%;
