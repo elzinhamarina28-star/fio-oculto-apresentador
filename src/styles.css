@@ -1503,3 +1503,40 @@
   .seed-san-layer { left: 29.5%; top: 28%; width: 22.5%; height: 72%; }
   .seed-san-credit { bottom: 2%; font-size: 5px; }
 }
+
+/* ===== OBS clean broadcast route ===== */
+.broadcast-page {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  background: transparent;
+}
+.broadcast-page .presenter-stage {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  border-radius: 0;
+  box-shadow: none;
+}
+.broadcast-page .presenter-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.broadcast-audio {
+  position: absolute;
+  z-index: 20;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  padding: .65rem 1rem;
+  border: 1px solid oklch(.78 .12 28 / .7);
+  border-radius: 999px;
+  background: oklch(.14 .02 20 / .88);
+  color: white;
+  font: 600 13px/1.2 ui-sans-serif, system-ui;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+}
+.broadcast-audio:hover { background: oklch(.22 .04 25 / .95); }
