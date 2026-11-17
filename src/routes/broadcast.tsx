@@ -23,7 +23,7 @@ function Broadcast() {
 
   return (
     <main className="broadcast-page">
-      <SpriteRig state={state} onReactionDone={removeReaction} />
+      <SpriteRig state={state} onReactionDone={removeReaction} useVrm />
       {!audioReady && (
         <button className="broadcast-audio" type="button" onClick={enableAudio}>
           Ativar áudio da transmissão
