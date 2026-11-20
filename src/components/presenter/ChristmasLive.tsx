@@ -55,6 +55,15 @@ export function ChristmasLive() {
             return next;
           });
         }
+        if (packet.event === "follow" || packet.event === "subscribe" || packet.event === "share") {
+          const action = packet.event === "follow" ? "começou a seguir" : packet.event === "subscribe" ? "se inscreveu" : "compartilhou a live";
+          setEvents(prev => [`${name} ${action}`, ...prev].slice(0, 8));
+          setLastLine(`Muito obrigado, ${name}! Que seu Natal seja cheio de alegria!`);
+        }
+        if (packet.event === "like") {
+          const likes = number(data.likeCount) || number(data.totalLikeCount) || 1;
+          setEvents(prev => [`${name} enviou curtidas · ${likes}`, ...prev].slice(0, 8));
+        }
         if (packet.event === "chat") {
           const comment = text(data.comment);
           if (comment) {
