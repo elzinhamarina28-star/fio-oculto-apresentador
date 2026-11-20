@@ -1,17 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
 
 type Guest = { id: string; name: string; avatar?: string; diamonds: number; joinedAt: number };
 type LivePacket = { event?: string; data?: Record<string, unknown> };
 const text = (v: unknown) => typeof v === "string" ? v : "";
 const number = (v: unknown) => typeof v === "number" && Number.isFinite(v) ? v : 0;
 
-export const Route = createFileRoute("/")({
-  head: () => ({ meta: [{ title: "Natal Interativo · Fio Oculto" }, { name: "description", content: "Uma sala natalina interativa para TikTok LIVE." }] }),
-  component: ChristmasLive,
-});
-
-function ChristmasLive() {
+export function ChristmasLive() {
   const [status, setStatus] = useState("Desconectado · abra o TikFinity neste computador");
   const [guests, setGuests] = useState<Guest[]>([]);
   const [current, setCurrent] = useState<Guest | null>(null);
